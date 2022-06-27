@@ -40,8 +40,8 @@ public class InvoiceController {
     public String addInvoice() throws SQLException {
         Statement statement = connection.createStatement();
         // insert query for database
-        String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, Products, Units_Per_Product, Unit_Price_Per_Product, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number) " +
-                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductList() +"','"+ getUnitsPerProductList() +"','"+ getPricePerProductList() +"','"+ getDiscountPerProductList() +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"');";
+        String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, ProductIDs, Products, Units_Per_Product, Unit_Price_Per_Product, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number) " +
+                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList() +"','"+ getProductList() +"','"+ getUnitsPerProductList() +"','"+ getPricePerProductList() +"','"+ getDiscountPerProductList() +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"');";
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
@@ -81,7 +81,7 @@ public class InvoiceController {
 
     public boolean selectInvoice() throws SQLException {
         Statement statement = connection.createStatement();
-        String queryString = "SELECT * FROM Invoice_Details WHERE Invoice_ID = '"+ invoice.getInvoiceNumber() +"';";
+        String queryString = "SELECT * FROM Invoice_Details WHERE Invoice_Number = '"+ invoice.getInvoiceNumber() +"';";
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if (resultSet.next()) {
@@ -103,7 +103,6 @@ public class InvoiceController {
             invoice.setCustomerName(resultSet.getString("Customer_Name"));
             invoice.setCustomerContactNumber(resultSet.getString("Contact_Number"));
 
-            invoice.displayAllInvoices();
             return true;
         }
 
@@ -113,7 +112,7 @@ public class InvoiceController {
     public boolean selectLastInvoice() throws SQLException{
 
         Statement statement = connection.createStatement();
-        String queryString = "SELECT * FROM Customer_Details";
+        String queryString = "SELECT * FROM Invoice_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if(resultSet.last()) {
@@ -138,6 +137,15 @@ public class InvoiceController {
             return false;
         }
         return true;
+    }
+
+    private String getProductIDList(){
+        String productIDs = "";
+
+        for (int index = 0; index < invoice.getProductIDs().size(); index++) {
+            productIDs += invoice.getProductIDs().get(index) + "\n";
+        }
+        return productIDs;
     }
 
     private String getProductList(){
