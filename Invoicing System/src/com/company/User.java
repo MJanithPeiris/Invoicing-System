@@ -69,4 +69,12 @@ public class User {
     public String getEmail() {
         return email;
     }
+
+    public void displayAllUsers() {
+        System.out.println(" User ID : " + userID + " | Name : " + name + " | User Name : " + userName + " | Contact Number : " + contactNumber + " | Email : " + email);
+    }
+
+    public void displayUser() {
+        System.out.println(" User ID : " + userID + "\n Name : " + name + "\n User Name : " + userName + "\n Contact Number : " + contactNumber + "\n Email : " + email);
+    }
 }
