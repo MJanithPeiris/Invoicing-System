@@ -15,92 +15,95 @@ public class Main {
 
     public static void main(String[] args) {
 
-        //        Scanner userOption = new Scanner(System.in);
-//        int userInput;
-//        String userName;
-//        String password;
-//        boolean isRunning = true;
-//
-//        System.out.println(" \n\t\t ---ABC Company--- ");
-//        System.out.println(" ---Welcome to Invoice System---");
-//
-//        try {
-//
-//            User user = new User();
-//            UserController userController = new UserController(user);
-//
-//            while (true) {
-//                System.out.print("\n\n Enter User Name : ");
-//                userName = userOption.nextLine();
-//                user.setUserName(userName);
-//                if (userController.selectUser()) {
-//                    System.out.print("\n Enter Password : ");
-//                    password = userOption.nextLine();
-//                    if (Objects.equals(user.getPassword(), password))
-//                        break;
-//                    else
-//                        System.out.println(" Wrong password entered!! Try again...");
-//                } else
-//                    System.out.println(" Wrong user name entered!! Try again...");
-//            }
-//            System.out.print("\n\n Logging.");
-//            for (int i = 0; i < 10; i++) {
-//                System.out.print(".");
-//                Thread.sleep(500);
-//
-//            }
-//        } catch (SQLException exception) {
-//            exception.printStackTrace();
-//        } catch (ClassNotFoundException exception) {
-//            exception.printStackTrace();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        Scanner userOption = new Scanner(System.in);
+        int userInput;
+        String userName;
+        String password;
+        boolean isRunning = true;
 
+        System.out.println(" \n\t\t ---ABC Company--- ");
+        System.out.println(" ---Welcome to Invoice System---");
+        System.out.println("\n Sign in to the system");
 
-//        while (isRunning) {
-//            System.out.println("\n 1. Manage Products\n 2. Manage Customers\n 3. Invoice Generation\n 4. Admin Tasks\n 5. Manage Users\n 0. Exit");
-//            System.out.print(" Your Option : ");
-//            userInput = userOption.nextInt();
-//            try {
-//                switch (userInput) {
-//                    case 1:
-//                        System.out.println("\n ---Manage Products---");
-//                        manageProducts();
-//                        break;
-//                    case 2:
-//                        System.out.println("\n ---Manage Customers---");
-//                        manageCustomers();
-//                        break;
-//                    case 3:
-//                        System.out.println("\n ---Invoice Generation---");
-//                        generateInvoice();
-//                        break;
-//                    case 4:
-//                        System.out.println("\n ---Admin Tasks---");
-//                        adminTask();
-//                        break;
-//                    case 5:
-//                        System.out.println("\n ---Manage Users---");
-//                        manageUsers();
-//                        break;
-//                    case 0:
-//                        System.out.print("\n Are you sure you want to exit? \n 1. Yes \n 2. No \n Your Option : ");
-//                        if (userOption.nextInt() == 1) {
-//                            isRunning = false;
-//                        }
-//                        break;
-//                    default:
-//                        System.out.println(" Invalid option entered! Try again \n");
-//                }
-//            } catch (SQLException | ClassNotFoundException exception) {
-//                System.out.println(" Sever not found!!");
-//            } catch (IOException exception) {
-//                System.out.println("An error occurred in printing the bill.");
-//            }
-//        }
-//
-//        System.out.println("\n Exiting the system...... \n Have a nice Day !!");
+        try {
+            User user = new User();
+            UserController userController = new UserController(user);
+
+            // get user credentials to start the program
+            while (true) {
+                System.out.print(" Enter User Name : ");
+                userName = userOption.nextLine();
+                user.setUserName(userName);
+                if (userController.selectUser()) {
+                    System.out.print(" Enter Password : ");
+                    password = userOption.nextLine();
+                    if (Objects.equals(user.getPassword(), password))
+                        break;
+                    else
+                        System.out.println(" Wrong password entered!! Try again...");
+                } else
+                    System.out.println(" Wrong user name entered!! Try again...");
+                user.setUserID("");
+                user.setUserName("");
+                user.setContactNumber("");
+            }
+            System.out.print("\n Logging.");
+            for (int i = 0; i < 10; i++) {
+                System.out.print(".");
+                Thread.sleep(250);
+            }
+
+            System.out.println(" \n\n\n\t\t ---ABC Company--- ");
+            System.out.println(" ---Welcome to Invoice System---");
+
+            // main program
+            while (isRunning) {
+                System.out.println("\n 1. Manage Products\n 2. Manage Customers\n 3. Invoice Generation\n 4. Admin Tasks\n 5. Manage Users\n 0. Exit");
+                System.out.print(" Your Option : ");
+                userInput = userOption.nextInt();
+
+                switch (userInput) {
+                    case 1:
+                        System.out.println("\n ---Manage Products---");
+                        manageProducts();
+                        break;
+                    case 2:
+                        System.out.println("\n ---Manage Customers---");
+                        manageCustomers();
+                        break;
+                    case 3:
+                        System.out.println("\n ---Invoice Generation---");
+                        generateInvoice();
+                        break;
+                    case 4:
+                        System.out.println("\n ---Admin Tasks---");
+                        adminTask();
+                        break;
+                    case 5:
+                        System.out.println("\n ---Manage Users---");
+                        manageUsers();
+                        break;
+                    case 0:
+                        System.out.print("\n Are you sure you want to exit? \n 1. Yes \n 2. No \n Your Option : ");
+                        if (userOption.nextInt() == 1) {
+                            isRunning = false;
+                        }
+                        break;
+                    default:
+                        System.out.println(" Invalid option entered! Try again \n");
+                }
+
+            }
+        } catch (SQLException | ClassNotFoundException exception) {
+            System.out.println(" Sever not found!!");
+            exception.printStackTrace();
+        } catch (IOException exception) {
+            System.out.println(" An error occurred while printing the bill.");
+        } catch (InterruptedException exception) {
+            System.out.println(" Error in starting the program!!");
+        }
+
+        System.out.println("\n Exiting the system...... \n Have a nice Day !!");
     }
 
     private static void manageProducts() throws SQLException, ClassNotFoundException {
@@ -505,10 +508,11 @@ public class Main {
             cashAmount = Double.parseDouble(userOption.nextLine());
             invoice.setCashAmount(cashAmount);
             invoice.setBalanceAmount(cashAmount - (subTotal - totalDiscount));
+            System.out.println(" Balance : " + String.format("%.2f", invoice.getBalanceAmount()));
         } else
             invoice.setPaymentMethod("Card");
 
-        System.out.println(" Balance : " + String.format("%.2f", invoice.getBalanceAmount()));
+
         LocalDateTime exitDateTime = LocalDateTime.now();
         invoice.setCheckOutTime(time.format(exitDateTime));
 

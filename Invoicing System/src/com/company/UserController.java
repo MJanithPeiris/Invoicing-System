@@ -75,7 +75,7 @@ public class UserController {
     public boolean selectUser() throws SQLException{
 
         Statement statement = connection.createStatement();
-        String queryString = "SELECT * FROM User_Details WHERE User_ID = '"+user.getUserID().toUpperCase()+"' OR User_Name = '"+user.getUserName()+"' OR Contact_Number = '"+user.getContactNumber()+"'";
+        String queryString = "SELECT * FROM User_Details WHERE User_ID = '"+user.getUserID().toUpperCase()+"' OR User_Name = '"+user.getUserName()+"' OR Contact_Number = '"+user.getContactNumber()+"';";
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if (resultSet.next()) {
@@ -85,7 +85,6 @@ public class UserController {
             user.setPassword(resultSet.getString("Password"));
             user.setContactNumber(resultSet.getString("Contact_Number"));
             user.setEmail(resultSet.getString("Email"));
-            user.displayUser();
             return true;
         }
         return false;

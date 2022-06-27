@@ -9,16 +9,21 @@ public class User {
     private String contactNumber;
     private String email;
 
-    public User(){
-
+    public User() {
+        this.userID = "";
+        this.name = "";
+        this.userName = "";
+        this.password = "";
+        this.contactNumber = "";
+        this.email = "";
     }
 
-    public User(String user_ID, String name, String user_Name, String password, String tel_No, String email) {
-        userID = user_ID;
+    public User(String userID, String name, String userName, String password, String contactNumber, String email) {
+        this.userID = userID;
         this.name = name;
-        userName = user_Name;
+        this.userName = userName;
         this.password = password;
-        contactNumber = tel_No;
+        this.contactNumber = contactNumber;
         this.email = email;
     }
 
