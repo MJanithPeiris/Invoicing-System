@@ -5,7 +5,7 @@ import java.util.Objects;
 
 public class Invoice {
 
-    private String  invoiceNumber;
+    private String invoiceNumber;
     private String currentDate;
     private String checkInTime;
     private String checkOutTime;
