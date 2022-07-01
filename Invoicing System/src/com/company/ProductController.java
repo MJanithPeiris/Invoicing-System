@@ -59,7 +59,7 @@ public class ProductController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        String queryString = "SELECT * FROM Product_Details WHERE Product_ID = '"+product.getProductID().toUpperCase()+"' OR Product_Name LIKE '%"+product.getProductName().toUpperCase()+"%'";
+        String queryString = "SELECT * FROM Product_Details WHERE Product_ID = '"+product.getProductID().toUpperCase()+"' OR Product_Name LIKE '%"+product.getProductName().toUpperCase()+"%';";
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if (resultSet.next()) {
@@ -122,7 +122,7 @@ public class ProductController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        String queryString = "SELECT * FROM Product_Details";
+        String queryString = "SELECT * FROM Product_Details;";
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if(resultSet.last()) {
