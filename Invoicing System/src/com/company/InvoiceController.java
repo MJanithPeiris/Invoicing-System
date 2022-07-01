@@ -41,6 +41,7 @@ public class InvoiceController {
             invoice.setCurrentDate(resultSet.getString("Date"));
             invoice.setCheckInTime(resultSet.getString("Check_In_Time"));
             invoice.setCheckOutTime(resultSet.getString("Check_Out_Time"));
+            invoice.setProductIDList(resultSet.getString("ProductIDs"));
             invoice.setProductList(resultSet.getString("Products"));
             invoice.setNumberOfUnitsList(resultSet.getString("Units_Per_Product"));
             invoice.setUnitPriceList(resultSet.getString("Unit_Price_Per_Product"));
@@ -74,6 +75,7 @@ public class InvoiceController {
             invoice.setCurrentDate(resultSet.getString("Date"));
             invoice.setCheckInTime(resultSet.getString("Check_In_Time"));
             invoice.setCheckOutTime(resultSet.getString("Check_Out_Time"));
+            invoice.setProductIDList(resultSet.getString("ProductIDs"));
             invoice.setProductList(resultSet.getString("Products"));
             invoice.setNumberOfUnitsList(resultSet.getString("Units_Per_Product"));
             invoice.setUnitPriceList(resultSet.getString("Unit_Price_Per_Product"));
@@ -101,7 +103,7 @@ public class InvoiceController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        String queryString = "SELECT * FROM Invoice_Details";
+        String queryString = "SELECT * FROM Invoice_Details;";
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if(resultSet.last()) {
@@ -109,6 +111,7 @@ public class InvoiceController {
             invoice.setCurrentDate(resultSet.getString("Date"));
             invoice.setCheckInTime(resultSet.getString("Check_In_Time"));
             invoice.setCheckOutTime(resultSet.getString("Check_Out_Time"));
+            invoice.setProductIDList(resultSet.getString("ProductIDs"));
             invoice.setProductList(resultSet.getString("Products"));
             invoice.setNumberOfUnitsList(resultSet.getString("Units_Per_Product"));
             invoice.setUnitPriceList(resultSet.getString("Unit_Price_Per_Product"));
