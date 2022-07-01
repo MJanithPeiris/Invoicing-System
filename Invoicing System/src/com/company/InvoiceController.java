@@ -7,41 +7,16 @@ import java.sql.Statement;
 
 public class InvoiceController {
 
-    private Connection connection;
-    private Invoice invoice;
+    public static String addInvoice(Invoice invoice) throws SQLException, ClassNotFoundException {
 
-    public InvoiceController(){
-
-    }
-
-    public InvoiceController(Invoice invoice) throws SQLException, ClassNotFoundException {
         DBConnector connector = new DBConnector();
         connector.setDBConnection();
+        Connection connection;
         connection = connector.getDBConnection();
-        this.invoice = invoice;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public Invoice getInvoice() {
-        return invoice;
-    }
-
-    public void setInvoice(Invoice invoice) {
-        this.invoice = invoice;
-    }
-
-    public String addInvoice() throws SQLException {
         Statement statement = connection.createStatement();
         // insert query for database
         String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, ProductIDs, Products, Units_Per_Product, Unit_Price_Per_Product, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number) " +
-                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList() +"','"+ getProductList() +"','"+ getUnitsPerProductList() +"','"+ getPricePerProductList() +"','"+ getDiscountPerProductList() +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"');";
+                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList(invoice) +"','"+ getProductList(invoice) +"','"+ getUnitsPerProductList(invoice) +"','"+ getPricePerProductList(invoice) +"','"+ getDiscountPerProductList(invoice) +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"');";
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
@@ -51,7 +26,12 @@ public class InvoiceController {
         }
     }
 
-    public void selectAllInvoices() throws SQLException {
+    public static void selectAllInvoices(Invoice invoice) throws SQLException, ClassNotFoundException {
+
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM Invoice_Details;";
         ResultSet resultSet = statement.executeQuery(queryString);
@@ -79,7 +59,12 @@ public class InvoiceController {
         }
     }
 
-    public boolean selectInvoice() throws SQLException {
+    public static boolean selectInvoice(Invoice invoice) throws SQLException, ClassNotFoundException {
+
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM Invoice_Details WHERE Invoice_Number = '"+ invoice.getInvoiceNumber() +"';";
         ResultSet resultSet = statement.executeQuery(queryString);
@@ -109,8 +94,12 @@ public class InvoiceController {
         return false;
     }
 
-    public boolean selectLastInvoice() throws SQLException{
+    public static boolean selectLastInvoice(Invoice invoice) throws SQLException, ClassNotFoundException {
 
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM Invoice_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
@@ -139,7 +128,8 @@ public class InvoiceController {
         return true;
     }
 
-    private String getProductIDList(){
+
+    private static String getProductIDList(Invoice invoice){
         String productIDs = "";
 
         for (int index = 0; index < invoice.getProductIDs().size(); index++) {
@@ -148,7 +138,7 @@ public class InvoiceController {
         return productIDs;
     }
 
-    private String getProductList(){
+    private static String getProductList(Invoice invoice){
         String products = "";
 
         for (int index = 0; index < invoice.getProducts().size(); index++) {
@@ -157,7 +147,7 @@ public class InvoiceController {
         return products;
     }
 
-    private String getUnitsPerProductList(){
+    private static String getUnitsPerProductList(Invoice invoice){
         String numberOfUnits = "";
 
         for (int index = 0; index < invoice.getNumberOfUnits().size(); index++) {
@@ -166,7 +156,7 @@ public class InvoiceController {
         return numberOfUnits;
     }
 
-    private String getPricePerProductList(){
+    private static String getPricePerProductList(Invoice invoice){
         String unitPrice = "";
 
         for (int index = 0; index < invoice.getUnitPrice().size(); index++) {
@@ -175,7 +165,7 @@ public class InvoiceController {
         return unitPrice;
     }
 
-    private String getDiscountPerProductList(){
+    private static String getDiscountPerProductList(Invoice invoice){
         String discountPerProduct = "";
 
         for (int index = 0; index < invoice.getDiscountPerUnit().size(); index++) {
