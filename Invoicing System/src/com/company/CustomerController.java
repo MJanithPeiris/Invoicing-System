@@ -7,39 +7,13 @@ import java.sql.Statement;
 
 public class CustomerController {
 
-    private Connection connection;
-    private Customer customer;
+    // add customer details to the customer details table
+    public static String addCustomer(Customer customer) throws SQLException, ClassNotFoundException {
 
-    public CustomerController(){
-
-    }
-
-    public CustomerController(Customer product) throws SQLException, ClassNotFoundException {
         DBConnector connector = new DBConnector();
         connector.setDBConnection();
+        Connection connection;
         connection = connector.getDBConnection();
-        this.customer = product;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    // add customer details to the customer details table
-    public String addCustomer() throws SQLException {
-
         Statement statement = connection.createStatement();
         String queryString = "INSERT INTO Customer_Details (Customer_ID, Customer_Name, Email, Address, Contact_Number, Date_of_Birth, Gender) " +
                 "VALUES ('"+ customer.getCustomerID().toUpperCase()+"','"+ customer.getCustomerName().toUpperCase()+"','"+ customer.getEmail()+"','"+ customer.getAddress()+"','"+ customer.getContactNumber()+"','"+ customer.getDob()+"','"+ customer.getGender()+"');";
@@ -53,8 +27,12 @@ public class CustomerController {
     }
 
     // display all details of the customers
-    public void selectAllCustomers() throws SQLException{
+    public static void selectAllCustomers(Customer customer) throws SQLException, ClassNotFoundException {
 
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM Customer_Details;";
         ResultSet resultSet = statement.executeQuery(queryString);
@@ -74,8 +52,12 @@ public class CustomerController {
     }
 
     // get a selected customer details
-    public boolean selectCustomer() throws SQLException{
+    public static boolean selectCustomer(Customer customer) throws SQLException, ClassNotFoundException {
 
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM Customer_Details WHERE Customer_ID = '"+customer.getCustomerID().toUpperCase()+"' OR Contact_Number ='"+customer.getContactNumber()+"';";
         ResultSet resultSet = statement.executeQuery(queryString);
@@ -94,8 +76,13 @@ public class CustomerController {
         return false;
     }
 
-    public String updateCustomer()throws SQLException{
 
+    public static String updateCustomer(Customer customer) throws SQLException, ClassNotFoundException {
+
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         // update query for database
         String queryString = "UPDATE Customer_Details SET Customer_Name = '"+ customer.getCustomerName().toUpperCase()+"', Email = '"+ customer.getEmail()+"', Address = '"+ customer.getAddress()+"', Contact_Number = '"+ customer.getContactNumber()+"', Date_of_Birth = '"+ customer.getDob()+"' , Gender = '"+ customer.getGender()+"'" +
@@ -109,7 +96,13 @@ public class CustomerController {
         }
     }
 
-    public String deleteCustomer() throws SQLException{
+
+    public static String deleteCustomer(Customer customer) throws SQLException, ClassNotFoundException {
+
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         // delete query for database
         String queryString = "DELETE FROM Customer_Details WHERE Customer_ID = '" + customer.getCustomerID().toUpperCase() + "' OR Contact_Number ='"+customer.getContactNumber()+"';";
@@ -122,8 +115,13 @@ public class CustomerController {
         }
     }
 
-    public boolean selectLastCustomer() throws SQLException{
 
+    public static boolean selectLastCustomer(Customer customer) throws SQLException, ClassNotFoundException {
+
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM Customer_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
