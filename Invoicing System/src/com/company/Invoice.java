@@ -1,6 +1,7 @@
 package com.company;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Invoice {
@@ -24,11 +25,11 @@ public class Invoice {
     private String unitPriceList;
     private String discountPerUnitList;
 
-    private ArrayList<String> productIDs = new ArrayList<>();
-    private ArrayList<String> products = new ArrayList<>();
-    private ArrayList<Integer> numberOfUnits = new ArrayList<>();
-    private ArrayList<Double> unitPrice = new ArrayList<>();
-    private ArrayList<Double> discountPerUnit = new ArrayList<>();
+    private ArrayList<String> productIDs;
+    private ArrayList<String> products;
+    private ArrayList<Integer> numberOfUnits;
+    private ArrayList<Double> unitPrice;
+    private ArrayList<Double> discountPerUnit;
 
     public Invoice(){
 
@@ -247,8 +248,9 @@ public class Invoice {
 
         System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
         for (int index = 0; index < products.size(); index++) {
-            System.out.print("\n "+ products.get(index) + "\t\t    " + numberOfUnits.get(index) + "\t\t    " + unitPrice.get(index));
-            System.out.print("\n Discount for product \t\t\t     -" + discountPerUnit.get(index) );
+            System.out.print("\n " + products.get(index));
+            System.out.print("\n " + productIDs.get(index) + "\t\t    " + numberOfUnits.get(index) + "\t\t    " + unitPrice.get(index));
+            System.out.print("\n Discount for product \t\t\t     -" + discountPerUnit.get(index));
         }
         System.out.print("\n\n Sub Total      : Rs." + String.format("%.2f", subTotal));
         System.out.print("\n Total Discount : Rs." + String.format("%.2f", totalDiscount));
@@ -266,7 +268,7 @@ public class Invoice {
         System.out.print("\n\n Invoice Number : " + invoiceNumber + "\n Date : " + currentDate);
         System.out.print("\n Check in Time : " + checkInTime + "\n Check out Time : " + checkOutTime);
         System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
-        for (int index = 0; index < products.size(); index++) {
+        for (int index = 0; index < pID.length; index++) {
             System.out.print("\n "+ p[index]);
             System.out.print("\n "+ pID[index] + "\t\t    " + n[index] + "\t\t    " + u[index]);
             System.out.print("\n Discount for product \t\t\t     -" + d[index]);
