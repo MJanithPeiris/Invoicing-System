@@ -27,14 +27,13 @@ public class Main {
 
         try {
             User user = new User();
-            UserController userController = new UserController(user);
 
             // get user credentials to start the program
             while (true) {
                 System.out.print(" Enter User Name : ");
                 userName = userOption.nextLine();
                 user.setUserName(userName);
-                if (userController.selectUser()) {
+                if (UserController.selectUser(user)) {
                     System.out.print(" Enter Password : ");
                     password = userOption.nextLine();
                     if (Objects.equals(user.getPassword(), password))
@@ -117,7 +116,6 @@ public class Main {
         double sellingPrice;
         int qty;
         Product product;
-        ProductController productController;
 
         System.out.println(" 1. Add a Product \n 2. Update Product Details \n 3. Remove a Product \n 4. Search a Product \n 5. Display all Products");
         System.out.print(" Your Option : ");
@@ -127,10 +125,9 @@ public class Main {
         switch (userInput) {
             case 1:
                 product = new Product();
-                productController = new ProductController(product);
 
                 System.out.println(" ---Add a Product---");
-                productID = getNextID('P', productController.selectLastProduct(), product.getProductID());
+                productID = getNextID('P', ProductController.selectLastProduct(product), product.getProductID());
                 System.out.print(" Enter Product ID : " + productID);
                 product.setProductID(productID);
                 System.out.print(" Enter Product Name : ");
@@ -146,20 +143,19 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(productController.addProduct());
+                    System.out.println(ProductController.addProduct(product));
                 }
                 break;
             case 2:
                 System.out.println(" ---Update Product Details---");
                 product = new Product();
-                productController = new ProductController(product);
 
                 while (true) {
                     System.out.print(" Enter Product ID or Name : ");
                     productDetails = userOption.nextLine();
                     product.setProductID(productDetails);
                     product.setProductName(productDetails);
-                    if (productController.selectProduct())
+                    if (ProductController.selectProduct(product))
                         break;
                     else
                         System.out.println(" Wrong Product ID or Name entered!! Try again...");
@@ -193,20 +189,19 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(productController.updateProduct());
+                    System.out.println(ProductController.updateProduct(product));
                 }
                 break;
             case 3:
                 System.out.println(" ---Remove a Product---");
                 product = new Product();
-                productController = new ProductController(product);
 
                 while (true) {
                     System.out.print(" Enter Product ID or Name : ");
                     productDetails = userOption.nextLine();
                     product.setProductID(productDetails);
                     product.setProductName(productDetails);
-                    if (productController.selectProduct())
+                    if (ProductController.selectProduct(product))
                         break;
                     else
                         System.out.println(" Wrong Product ID or Name entered!! Try again...");
@@ -215,20 +210,19 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(productController.deleteProduct());
+                    System.out.println(ProductController.deleteProduct(product));
                 }
                 break;
             case 4:
                 System.out.println(" ---Search a Product---");
                 product = new Product();
-                productController = new ProductController(product);
 
                 while (true) {
                     System.out.print(" Enter Product ID or Name : ");
                     productDetails = userOption.nextLine();
                     product.setProductID(productDetails);
                     product.setProductName(productDetails);
-                    if (productController.selectProduct())
+                    if (ProductController.selectProduct(product))
                         break;
                     else
                         System.out.println(" Wrong Product ID or Name entered!! Try again...");
@@ -238,8 +232,7 @@ public class Main {
             case 5:
                 System.out.println(" ---Display all Products---");
                 product = new Product();
-                productController = new ProductController(product);
-                productController.selectAllProducts();
+                ProductController.selectAllProducts(product);
                 break;
             default:
                 System.out.println(" Invalid option entered! Try again");
@@ -259,7 +252,6 @@ public class Main {
         String dob;
         String gender;
         Customer customer;
-        CustomerController customerController;
 
 
         System.out.println(" 1. Add a Customer \n 2. Update Customer Details \n 3. Remove a Customer \n 4. Search a Customer \n 5. Display all Customers");
@@ -270,10 +262,9 @@ public class Main {
         switch (userInput) {
             case 1:
                 customer = new Customer();
-                customerController = new CustomerController(customer);
 
                 System.out.println(" ---Add a Customer---");
-                customerID = getNextID('C', customerController.selectLastCustomer(), customer.getCustomerID());
+                customerID = getNextID('C', CustomerController.selectLastCustomer(customer), customer.getCustomerID());
                 System.out.print(" Enter Customers' ID : " + customerID);
                 customer.setCustomerID(customerID);
                 System.out.print(" Enter Customers' Name : ");
@@ -291,20 +282,19 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(customerController.addCustomer());
+                    System.out.println(CustomerController.addCustomer(customer));
                 }
                 break;
             case 2:
                 System.out.println(" ---Update Customer Details---");
                 customer = new Customer();
-                customerController = new CustomerController(customer);
 
                 while (true) {
                     System.out.print(" Enter Customer ID or Contact Number : ");
                     customerDetails = userOption.nextLine();
                     customer.setCustomerID(customerDetails);
                     customer.setContactNumber(customerDetails);
-                    if (customerController.selectCustomer())
+                    if (CustomerController.selectCustomer(customer))
                         break;
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
@@ -343,20 +333,19 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(customerController.updateCustomer());
+                    System.out.println(CustomerController.updateCustomer(customer));
                 }
                 break;
             case 3:
                 System.out.println(" ---Remove a Customer---");
                 customer = new Customer();
-                customerController = new CustomerController(customer);
 
                 while (true) {
                     System.out.print(" Enter Customer ID or Contact Number : ");
                     customerDetails = userOption.nextLine();
                     customer.setCustomerID(customerDetails);
                     customer.setContactNumber(customerDetails);
-                    if (customerController.selectCustomer())
+                    if (CustomerController.selectCustomer(customer))
                         break;
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
@@ -365,20 +354,19 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(customerController.deleteCustomer());
+                    System.out.println(CustomerController.deleteCustomer(customer));
                 }
                 break;
             case 4:
                 System.out.println(" ---Search a Customer---");
                 customer = new Customer();
-                customerController = new CustomerController(customer);
 
                 while (true) {
                     System.out.print(" Enter Customer ID or Contact Number : ");
                     customerDetails = userOption.nextLine();
                     customer.setCustomerID(customerDetails);
                     customer.setContactNumber(customerDetails);
-                    if (customerController.selectCustomer())
+                    if (CustomerController.selectCustomer(customer))
                         break;
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
@@ -389,8 +377,7 @@ public class Main {
             case 5:
                 System.out.println(" ---Display all Customers---");
                 customer = new Customer();
-                customerController = new CustomerController(customer);
-                customerController.selectAllCustomers();
+                CustomerController.selectAllCustomers(customer);
                 break;
             default:
                 System.out.println(" Invalid option entered! Try again");
@@ -421,14 +408,12 @@ public class Main {
         ArrayList<Double> discountPerUnit = new ArrayList<>();
 
         Customer customer = new Customer();
-        CustomerController customerController = new CustomerController(customer);
+
         Product product = new Product();
-        ProductController productController = new ProductController(product);
 
         Invoice invoice = new Invoice();
-        InvoiceController invoiceController = new InvoiceController(invoice);
 
-        invoiceNumber = getNextID('I', invoiceController.selectLastInvoice(), invoice.getInvoiceNumber());
+        invoiceNumber = getNextID('I', InvoiceController.selectLastInvoice(invoice), invoice.getInvoiceNumber());
         invoice.setInvoiceNumber(invoiceNumber);
 
         invoice.setCurrentDate(date.format(entryDateTime));
@@ -439,7 +424,7 @@ public class Main {
             customerDetails = userOption.nextLine();
             customer.setCustomerID(customerDetails);
             customer.setContactNumber(customerDetails);
-            if (customerController.selectCustomer()) {
+            if (CustomerController.selectCustomer(customer)) {
                 customer.displayCustomer();
                 invoice.setCustomerID(customer.getCustomerID());
                 invoice.setCustomerName(customer.getCustomerName());
@@ -454,7 +439,7 @@ public class Main {
             productDetails = userOption.nextLine();
             product.setProductID(productDetails);
             product.setProductName(productDetails);
-            if (productController.selectProduct()) {
+            if (ProductController.selectProduct(product)) {
                 System.out.print(" Number of Units : ");
                 buyingQty = Integer.parseInt(userOption.nextLine());
 
@@ -469,7 +454,7 @@ public class Main {
                     numberOfUnits.add(buyingQty); /// over all price ekata discount ekak denawada
 
                     product.setQty(product.getQty() - buyingQty);
-                    productController.updateProduct();
+                    ProductController.updateProduct(product);
 
                     totalDiscount += (product.getSellingPrice() * discountPercentage) / 100;
                     subTotal += product.getSellingPrice() * buyingQty;
@@ -517,10 +502,11 @@ public class Main {
         invoice.setCheckOutTime(time.format(exitDateTime));
 
 
-        System.out.println(invoiceController.addInvoice());
+        System.out.println(InvoiceController.addInvoice(invoice));
 
         printBill(invoice);
     }
+
 
     private static void manageUsers() throws SQLException, ClassNotFoundException {
         Scanner userOption = new Scanner(System.in);
@@ -535,7 +521,6 @@ public class Main {
         String email;
 
         User user;
-        UserController userController;
 
         System.out.println(" 1. Add a User\n 2. Reset User Password\n 3. Update User Details\n 4. Remove a User\n 5. Search a User\n 6. Display all Users");
         System.out.print(" Your Option : ");
@@ -545,10 +530,9 @@ public class Main {
         switch (userInput) {
             case 1:
                 user = new User();
-                userController = new UserController(user);
 
                 System.out.println(" ---Add a User---");
-                userID = getNextID('U', userController.selectLastUser(), user.getUserID());
+                userID = getNextID('U', UserController.selectLastUser(user), user.getUserID());
                 System.out.print(" Enter User ID : " + userID);
                 user.setUserID(userID);
                 System.out.print(" Enter Name : ");
@@ -569,24 +553,23 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(userController.addUser());
+                    System.out.println(UserController.addUser(user));
                 }
                 break;
             case 2:
                 System.out.println(" ---Reset User Password---");
                 user = new User();
-                userController = new UserController(user);
                 while (true) {
                     System.out.print(" Enter User ID or Contact Number : ");
                     userDetails = userOption.nextLine();
                     user.setUserID(userDetails);
                     user.setContactNumber(userDetails);
-                    if (userController.selectUser())
+                    if (UserController.selectUser(user))
                         break;
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                // display karanna
+                user.displayUser();
 
                 while (true) {
                     System.out.print(" Enter New Password : ");
@@ -602,25 +585,24 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(userController.updateUser());
+                    System.out.println(UserController.updateUser(user));
                 }
                 break;
             case 3:
                 System.out.println(" ---Update User Details---");
 
                 user = new User();
-                userController = new UserController(user);
                 while (true) {
                     System.out.print(" Enter User ID or Contact Number : ");
                     userDetails = userOption.nextLine();
                     user.setUserID(userDetails);
                     user.setContactNumber(userDetails);
-                    if (userController.selectUser())
+                    if (UserController.selectUser(user))
                         break;
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                //user.displayDetails();
+                user.displayUser();
 
                 System.out.print("\n Enter updated Name : ");
                 name = userOption.nextLine();
@@ -645,34 +627,32 @@ public class Main {
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(userController.updateUser());
+                    System.out.println(UserController.updateUser(user));
                 }
                 break;
             case 4:
                 System.out.println(" ---Remove a User---");
                 user = new User();
-                userController = new UserController(user);
                 while (true) {
                     System.out.print(" Enter User ID or User Name : ");
                     userDetails = userOption.nextLine();
                     user.setUserID(userDetails);
                     user.setUserName(userDetails);
-                    if (userController.selectUser())
+                    if (UserController.selectUser(user))
                         break;
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                // product.displayDetails();
+                user.displayUser();
 
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
-                    System.out.println(userController.deleteUser());
+                    System.out.println(UserController.deleteUser(user));
                 }
                 break;
             case 5:
                 System.out.println(" ---Search a User---");
                 user = new User();
-                userController = new UserController(user);
 
                 while (true) {
                     System.out.print(" Enter User ID or User Name or Contact Number : ");
@@ -680,18 +660,17 @@ public class Main {
                     user.setUserID(userDetails);
                     user.setUserName(userDetails);
                     user.setContactNumber(userDetails);
-                    if (userController.selectUser())
+                    if (UserController.selectUser(user))
                         break;
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                // display
+                user.displayUser();
                 break;
             case 6:
                 System.out.println(" ---Display all Users---");
                 user = new User();
-                userController = new UserController(user);
-                userController.selectAllUsers();
+                UserController.selectAllUsers(user);
                 break;
             default:
                 System.out.println(" Invalid option entered! Try again");
@@ -710,22 +689,19 @@ public class Main {
             case 1:
                 System.out.println(" ---Check last insert Product details---");
                 Product product = new Product();
-                ProductController productController = new ProductController(product);
-                productController.selectLastProduct();
+                ProductController.selectLastProduct(product);
                 product.displayProduct();
                 break;
             case 2:
                 System.out.println(" ---Check last insert Customer details---");
                 Customer customer = new Customer();
-                CustomerController customerController = new CustomerController(customer);
-                customerController.selectLastCustomer();
+                CustomerController.selectLastCustomer(customer);
                 customer.displayCustomer();
                 break;
             case 3:
                 System.out.println(" ---Check last insert Invoice details---");
                 Invoice invoice = new Invoice();
-                InvoiceController invoiceController = new InvoiceController(invoice);
-                invoiceController.selectLastInvoice();
+                InvoiceController.selectLastInvoice(invoice);
                 invoice.displayAllInvoices();
                 break;
             case 4:
@@ -743,6 +719,7 @@ public class Main {
         ORDER BY UPDATE_TIME DESC;*/
 
     }
+
 
     private static void printBill(Invoice invoice) throws IOException {
         File temp = Paths.get("Invoices").toAbsolutePath().normalize().toFile();
