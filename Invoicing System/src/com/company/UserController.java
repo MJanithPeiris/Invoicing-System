@@ -7,38 +7,12 @@ import java.sql.Statement;
 
 public class UserController {
 
-    private Connection connection;
-    private User user;
+    public static String addUser(User user) throws SQLException, ClassNotFoundException {
 
-    public UserController(){
-
-    }
-
-    public UserController(User user) throws SQLException, ClassNotFoundException {
         DBConnector connector = new DBConnector();
         connector.setDBConnection();
+        Connection connection;
         connection = connector.getDBConnection();
-        this.user = user;
-    }
-
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void setConnection(Connection connection) {
-        this.connection = connection;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public String addUser() throws SQLException {
-
         Statement statement = connection.createStatement();
         // insert query for database
         String queryString = "INSERT INTO User_Details (User_ID, Name, User_Name, Password, Contact_Number, Email) " +
@@ -53,8 +27,12 @@ public class UserController {
     }
 
     // display all details of the products
-    public void selectAllUsers() throws SQLException{
+    public static void selectAllUsers(User user) throws SQLException, ClassNotFoundException {
 
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM User_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
@@ -72,8 +50,12 @@ public class UserController {
     }
 
     // get a selected product details
-    public boolean selectUser() throws SQLException{
+    public static boolean selectUser(User user) throws SQLException, ClassNotFoundException {
 
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM User_Details WHERE User_ID = '"+user.getUserID().toUpperCase()+"' OR User_Name = '"+user.getUserName()+"' OR Contact_Number = '"+user.getContactNumber()+"';";
         ResultSet resultSet = statement.executeQuery(queryString);
@@ -91,8 +73,12 @@ public class UserController {
     }
 
 
-    public String updateUser()throws SQLException{
+    public static String updateUser(User user) throws SQLException, ClassNotFoundException {
 
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         // update query for database
         String queryString = "UPDATE User_Details SET Name = '"+user.getName().toUpperCase()+"', User_Name = '"+user.getUserName()+"', Password = '"+user.getPassword()+"', Contact_Number = '"+user.getContactNumber()+"', Email = '"+user.getEmail()+"' " +
@@ -107,7 +93,12 @@ public class UserController {
     }
 
 
-    public String deleteUser() throws SQLException{
+    public static String deleteUser(User user) throws SQLException, ClassNotFoundException {
+
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         // delete query for database
         String queryString = "DELETE FROM User_Details WHERE User_ID = '" + user.getUserID().toUpperCase() + "' OR User_Name '"+user.getUserName()+"';";
@@ -121,8 +112,12 @@ public class UserController {
     }
 
 
-    public boolean selectLastUser() throws SQLException{
+    public static boolean selectLastUser(User user) throws SQLException, ClassNotFoundException {
 
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         String queryString = "SELECT * FROM User_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
