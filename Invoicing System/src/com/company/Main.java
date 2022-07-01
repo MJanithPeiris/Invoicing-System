@@ -46,7 +46,7 @@ public class Main {
                 user.setUserName("");
                 user.setContactNumber("");
             }
-            System.out.print("\n Logging.");
+            System.out.print(" Logging.");
             for (int i = 0; i < 10; i++) {
                 System.out.print(".");
                 Thread.sleep(250);
@@ -63,7 +63,7 @@ public class Main {
 
                 switch (userInput) {
                     case 1:
-                        System.out.println("\n ---Manage Products---");
+                        System.out.println("\n\n ---Manage Products---");
                         manageProducts();
                         break;
                     case 2:
@@ -93,16 +93,21 @@ public class Main {
                 }
 
             }
+
+            System.out.print("\n Exiting the system.");
+            for (int i = 0; i < 10; i++) {
+                System.out.print(".");
+                Thread.sleep(250);
+            }
+            System.out.println("\n Have a nice Day !!");
+
         } catch (SQLException | ClassNotFoundException exception) {
             System.out.println(" Sever not found!!");
-            exception.printStackTrace();
         } catch (IOException exception) {
             System.out.println(" An error occurred while printing the bill.");
         } catch (InterruptedException exception) {
             System.out.println(" Error in starting the program!!");
         }
-
-        System.out.println("\n Exiting the system...... \n Have a nice Day !!");
     }
 
     private static void manageProducts() throws SQLException, ClassNotFoundException {
