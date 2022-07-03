@@ -10,7 +10,13 @@ public class Customer {
     private String gender;
 
     public Customer(){
-
+        this.customerID = " ";
+        this.customerName = " ";
+        this.email = " ";
+        this.address = " ";
+        this.contactNumber = " ";
+        this.dob = " ";
+        this.gender = " ";
     }
 
     public Customer(String customerID, String customerName,String email, String address, String contactNumber, String dob, String gender){
