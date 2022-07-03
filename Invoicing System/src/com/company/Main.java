@@ -1,10 +1,7 @@
 package com.company;
 
 import java.io.*;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -27,7 +24,6 @@ public class Main {
         while (isRunning) {
             try {
                 User user = new User();
-                userOption.nextLine();
                 // get user credentials to start the program
                 while (true) {
                     System.out.print(" Enter User Name : ");
@@ -353,7 +349,7 @@ public class Main {
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
                     System.out.println(CustomerController.updateCustomer(customer));
-                    FileOperator.writeFile("Customer Report.", customer.getCustomerID(), "Update", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
+                    FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Update", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
                 }
                 break;
             case 3:
@@ -429,9 +425,7 @@ public class Main {
         ArrayList<Double> discountPerUnit = new ArrayList<>();
 
         Customer customer = new Customer();
-
         Product product = new Product();
-
         Invoice invoice = new Invoice();
 
         invoiceNumber = getNextID('I', InvoiceController.selectLastInvoice(invoice), invoice.getInvoiceNumber());
@@ -441,8 +435,7 @@ public class Main {
         invoice.setCheckInTime(time.format(entryDateTime));
 
         System.out.print(" Are you regular customer?\n 1. Yes\n 2. No\n Your Option :");
-        userInput = userOption.nextInt();
-        userOption.nextLine();
+        userInput = Integer.parseInt(userOption.nextLine());
         if(userInput == 1) {
             while (true) {
                 System.out.print(" Enter customer ID or contact number : ");
@@ -476,13 +469,13 @@ public class Main {
                     productIDs.add(product.getProductID());
                     products.add(product.getProductName());
                     unitPrice.add(product.getSellingPrice());
-                    discountPerUnit.add((product.getSellingPrice() * discountPercentage) / 100); /// discount eka product by product denna oned naththn
-                    numberOfUnits.add(buyingQty); /// over all price ekata discount ekak denawada
+                    discountPerUnit.add((product.getSellingPrice() * discountPercentage) / 100);
+                    numberOfUnits.add(buyingQty);
 
                     product.setQty(product.getQty() - buyingQty);
                     ProductController.updateProduct(product);
 
-                    totalDiscount += (product.getSellingPrice() * discountPercentage) / 100;
+                    totalDiscount += (product.getSellingPrice() * discountPercentage) * buyingQty / 100;
                     subTotal += product.getSellingPrice() * buyingQty;
                 } else {
                     System.out.println(product.getQty() + " only left in the stock!!");
@@ -493,7 +486,7 @@ public class Main {
                 continue;
             }
 
-            System.out.println(" Do you want to add more items?\n 1. Yes\n 2. No\n Your Option : ");
+            System.out.print(" Do you want to add more items?\n 1. Yes\n 2. No\n Your Option : ");
             userInput = Integer.parseInt(userOption.nextLine());
             if (userInput != 1)
                 break;
@@ -520,8 +513,11 @@ public class Main {
             invoice.setCashAmount(cashAmount);
             invoice.setBalanceAmount(cashAmount - (subTotal - totalDiscount));
             System.out.println(" Balance : " + String.format("%.2f", invoice.getBalanceAmount()));
-        } else
+        } else {
             invoice.setPaymentMethod("Card");
+            invoice.setCashAmount(0.0);
+            invoice.setBalanceAmount(0.0);
+        }
 
 
         LocalDateTime exitDateTime = LocalDateTime.now();
@@ -529,7 +525,7 @@ public class Main {
 
 
         System.out.println(InvoiceController.addInvoice(invoice));
-        FileOperator.writeFile("Invoice Report", invoice.getInvoiceNumber(), "Insert", invoice.getCurrentDate(), invoice.getCheckInTime(), FileOperator.readFile("Invoice Report."));
+        FileOperator.writeFile("Invoice Report", invoice.getInvoiceNumber(), "Insert", invoice.getCurrentDate(), invoice.getCheckInTime(), FileOperator.readFile("Invoice Report"));
 
         FileOperator.printBill(invoice);
     }
@@ -711,8 +707,8 @@ public class Main {
         int userInput;
 
         System.out.print(" 1. Check last insert Product details.\n 2. Check last insert Customer details.\n 3. Check last insert Invoice details.\n" +
-                " 4. View all Invoices.\n 5. Search for an Invoice\n 6. Check last updated table.\n 7. Check Product Report.\n 8. Check Customer Report.\n" +
-                " 9. Check Invoice Report.  \n Your option : ");
+                " 4. View all Invoices.\n 5. Search for an Invoice\n 6. Check Product Report.\n 7. Check Customer Report.\n" +
+                " 8. Check Invoice Report.  \n Your option : ");
         userInput = userOption.nextInt();
         switch (userInput) {
             case 1:
@@ -747,29 +743,14 @@ public class Main {
                     System.out.println(" Wrong invoice id has been entered!! Try again...");
                 break;
             case 6:
-                System.out.println(" ---Last update table---\n");
-                DBConnector connector = new DBConnector();
-                connector.setDBConnection();
-                Connection connection;
-                connection = connector.getDBConnection();
-                Statement statement = connection.createStatement();
-                String queryString = "SELECT UPDATE_TIME, TABLE_SCHEMA, TABLE_NAME FROM information_schema.tables WHERE TABLE_SCHEMA = 'abc' AND TABLE_NAME = 'product_details' ORDER BY UPDATE_TIME DESC;";
-                ResultSet resultSet = statement.executeQuery(queryString);
-                while (resultSet.next()) {
-                    System.out.println(resultSet.getString(0));
-                    System.out.println(resultSet.getString(1));
-                    System.out.println(resultSet.getString(2));
-                }
-                break;
-            case 7:
                 System.out.println(" ---Product Report---\n");
                 System.out.println(FileOperator.readFile("Product Report"));
                 break;
-            case 8:
+            case 7:
                 System.out.println(" ---Customer Report---\n");
                 System.out.println(FileOperator.readFile("Customer Report"));
                 break;
-            case 9:
+            case 8:
                 System.out.println(" ---Invoice Report---\n");
                 System.out.println(FileOperator.readFile("Invoice Report"));
                 break;
@@ -786,7 +767,7 @@ public class Main {
     }
 
 
-    private static String getNextID(char startingLetter, boolean haveLast, String lastID) throws SQLException, ClassNotFoundException {
+    private static String getNextID(char startingLetter, boolean haveLast, String lastID) {
 
         if (haveLast) {
             String[] id = lastID.split("-");
@@ -799,7 +780,3 @@ public class Main {
 
 
 }
-
-/// to dos
-// check get last invoice, last customer, last product methods... return type boolean
-// think more about 6 th option in admin tasks
