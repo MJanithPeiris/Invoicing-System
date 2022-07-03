@@ -55,7 +55,7 @@ public class Main {
                 while (isRunning) {
                     System.out.println("\n 1. Manage Products\n 2. Manage Customers\n 3. Invoice Generation\n 4. Admin Tasks\n 5. Manage Users\n 0. Exit");
                     System.out.print(" Your Option : ");
-                    userInput = userOption.nextInt();
+                    userInput = Integer.parseInt(userOption.nextLine());
 
                     switch (userInput) {
                         case 1:
@@ -80,7 +80,7 @@ public class Main {
                             break;
                         case 0:
                             System.out.print("\n Are you sure you want to exit? \n 1. Yes \n 2. No \n Your Option : ");
-                            if (userOption.nextInt() == 1) {
+                            if (Objects.equals(userOption.nextLine(), "1")) {
                                 isRunning = false;
                             }
                             break;
@@ -125,7 +125,7 @@ public class Main {
 
         System.out.println(" 1. Add a Product \n 2. Update Product Details \n 3. Remove a Product \n 4. Search a Product \n 5. Display all Products");
         System.out.print(" Your Option : ");
-        userInput = userOption.nextInt();
+        userInput = Integer.parseInt(userOption.nextLine());
         userOption.nextLine();
 
         switch (userInput) {
@@ -145,10 +145,10 @@ public class Main {
                 System.out.print(" Enter Product Selling Price : ");
                 product.setSellingPrice(userOption.nextDouble());
                 System.out.print(" Enter Product Quantity : ");
-                product.setQty(userOption.nextInt());
+                product.setQty(Integer.parseInt(userOption.nextLine()));
 
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(ProductController.addProduct(product));
                     FileOperator.writeFile("Product Report", product.getProductID(), "Insert", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Product Report"));
 
@@ -191,12 +191,12 @@ public class Main {
                     product.setSellingPrice(sellingPrice);
 
                 System.out.print(" Enter updated Product quantity : ");
-                qty = userOption.nextInt();
+                qty = Integer.parseInt(userOption.nextLine());
                 if (qty != 0)
                     product.setQty(product.getQty() + qty);
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(ProductController.updateProduct(product));
                     FileOperator.writeFile("Product Report", product.getProductID(), "Update", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Product Report"));
                 }
@@ -218,7 +218,7 @@ public class Main {
                 product.displayProduct();
 
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(ProductController.deleteProduct(product));
                     FileOperator.writeFile("Product Report", product.getProductID(), "Delete", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Product Report"));
                 }
@@ -270,7 +270,7 @@ public class Main {
 
         System.out.println(" 1. Add a Customer \n 2. Update Customer Details \n 3. Remove a Customer \n 4. Search a Customer \n 5. Display all Customers");
         System.out.print(" Your Option : ");
-        userInput = userOption.nextInt();
+        userInput = Integer.parseInt(userOption.nextLine());
         userOption.nextLine();
 
         switch (userInput) {
@@ -295,7 +295,7 @@ public class Main {
                 customer.setGender(userOption.nextLine());
 
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(CustomerController.addCustomer(customer));
                     FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Insert", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
                 }
@@ -347,7 +347,7 @@ public class Main {
                     customer.setGender(gender);
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(CustomerController.updateCustomer(customer));
                     FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Update", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
                 }
@@ -369,7 +369,7 @@ public class Main {
                 customer.displayCustomer();
 
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(CustomerController.deleteCustomer(customer));
                     FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Delete", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
                 }
@@ -547,7 +547,7 @@ public class Main {
 
         System.out.println(" 1. Add a User\n 2. Reset User Password\n 3. Update User Details\n 4. Remove a User\n 5. Search a User\n 6. Display all Users");
         System.out.print(" Your Option : ");
-        userInput = userOption.nextInt();
+        userInput = Integer.parseInt(userOption.nextLine());
         userOption.nextLine();
 
         switch (userInput) {
@@ -575,7 +575,7 @@ public class Main {
                 user.setEmail(userOption.nextLine());
 
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(UserController.addUser(user));
                 }
                 break;
@@ -607,7 +607,7 @@ public class Main {
                 user.setPassword(password);
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(UserController.updateUser(user));
                 }
                 break;
@@ -649,7 +649,7 @@ public class Main {
 
 
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(UserController.updateUser(user));
                 }
                 break;
@@ -669,7 +669,7 @@ public class Main {
                 user.displayUser();
 
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
-                if (userOption.nextInt() == 1) {
+                if (Objects.equals(userOption.nextLine(), "1")) {
                     System.out.println(UserController.deleteUser(user));
                 }
                 break;
@@ -709,7 +709,7 @@ public class Main {
         System.out.print(" 1. Check last insert Product details.\n 2. Check last insert Customer details.\n 3. Check last insert Invoice details.\n" +
                 " 4. View all Invoices.\n 5. Search for an Invoice\n 6. Check Product Report.\n 7. Check Customer Report.\n" +
                 " 8. Check Invoice Report.  \n Your option : ");
-        userInput = userOption.nextInt();
+        userInput = Integer.parseInt(userOption.nextLine());
         switch (userInput) {
             case 1:
                 System.out.println(" ---Check last insert Product details---");
