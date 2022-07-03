@@ -1,10 +1,7 @@
 package com.company;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.sql.SQLException;
+import java.io.*;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,89 +21,98 @@ public class Main {
         System.out.println(" \n\t\t ---ABC Company--- ");
         System.out.println(" ---Welcome to Invoice System---");
         System.out.println("\n Sign in to the system");
-
-        try {
-            User user = new User();
-            UserController userController = new UserController(user);
-
-            // get user credentials to start the program
-            while (true) {
-                System.out.print(" Enter User Name : ");
-                userName = userOption.nextLine();
-                user.setUserName(userName);
-                if (userController.selectUser()) {
-                    System.out.print(" Enter Password : ");
-                    password = userOption.nextLine();
-                    if (Objects.equals(user.getPassword(), password))
-                        break;
-                    else
-                        System.out.println(" Wrong password entered!! Try again...");
-                } else
-                    System.out.println(" Wrong user name entered!! Try again...");
-                user.setUserID("");
-                user.setUserName("");
-                user.setContactNumber("");
-            }
-            System.out.print("\n Logging.");
-            for (int i = 0; i < 10; i++) {
-                System.out.print(".");
-                Thread.sleep(250);
-            }
-
-            System.out.println(" \n\n\n\t\t ---ABC Company--- ");
-            System.out.println(" ---Welcome to Invoice System---");
-
-            // main program
-            while (isRunning) {
-                System.out.println("\n 1. Manage Products\n 2. Manage Customers\n 3. Invoice Generation\n 4. Admin Tasks\n 5. Manage Users\n 0. Exit");
-                System.out.print(" Your Option : ");
-                userInput = userOption.nextInt();
-
-                switch (userInput) {
-                    case 1:
-                        System.out.println("\n ---Manage Products---");
-                        manageProducts();
-                        break;
-                    case 2:
-                        System.out.println("\n ---Manage Customers---");
-                        manageCustomers();
-                        break;
-                    case 3:
-                        System.out.println("\n ---Invoice Generation---");
-                        generateInvoice();
-                        break;
-                    case 4:
-                        System.out.println("\n ---Admin Tasks---");
-                        adminTask();
-                        break;
-                    case 5:
-                        System.out.println("\n ---Manage Users---");
-                        manageUsers();
-                        break;
-                    case 0:
-                        System.out.print("\n Are you sure you want to exit? \n 1. Yes \n 2. No \n Your Option : ");
-                        if (userOption.nextInt() == 1) {
-                            isRunning = false;
-                        }
-                        break;
-                    default:
-                        System.out.println(" Invalid option entered! Try again \n");
+        while (isRunning) {
+            try {
+                User user = new User();
+                UserController userController = new UserController(user);
+                // get user credentials to start the program
+                while (true) {
+                    System.out.print(" Enter User Name : ");
+                    userName = userOption.nextLine();
+                    user.setUserName(userName);
+                    if (userController.selectUser()) {
+                        System.out.print(" Enter Password : ");
+                        password = userOption.nextLine();
+                        if (Objects.equals(user.getPassword(), password))
+                            break;
+                        else
+                            System.out.println(" Wrong password entered!! Try again...");
+                    } else
+                        System.out.println(" Wrong user name entered!! Try again...");
+                    user.setUserID("");
+                    user.setUserName("");
+                    user.setContactNumber("");
+                }
+                System.out.print("\n Logging.");
+                for (int i = 0; i < 10; i++) {
+                    System.out.print(".");
+                    Thread.sleep(250);
                 }
 
-            }
-        } catch (SQLException | ClassNotFoundException exception) {
-            System.out.println(" Sever not found!!");
-            exception.printStackTrace();
-        } catch (IOException exception) {
-            System.out.println(" An error occurred while printing the bill.");
-        } catch (InterruptedException exception) {
-            System.out.println(" Error in starting the program!!");
-        }
+                System.out.println(" \n\n\n\t\t ---ABC Company--- ");
+                System.out.println(" ---Welcome to Invoice System---");
 
-        System.out.println("\n Exiting the system...... \n Have a nice Day !!");
+                // main program
+                while (isRunning) {
+                    System.out.println("\n 1. Manage Products\n 2. Manage Customers\n 3. Invoice Generation\n 4. Admin Tasks\n 5. Manage Users\n 0. Exit");
+                    System.out.print(" Your Option : ");
+                    userInput = userOption.nextInt();
+
+                    switch (userInput) {
+                        case 1:
+                            System.out.println("\n\n ---Manage Products---");
+                            manageProducts();
+                            break;
+                        case 2:
+                            System.out.println("\n ---Manage Customers---");
+                            manageCustomers();
+                            break;
+                        case 3:
+                            System.out.println("\n ---Invoice Generation---");
+                            generateInvoice();
+                            break;
+                        case 4:
+                            System.out.println("\n ---Admin Tasks---");
+                            adminTask();
+                            break;
+                        case 5:
+                            System.out.println("\n ---Manage Users---");
+                            manageUsers();
+                            break;
+                        case 0:
+                            System.out.print("\n Are you sure you want to exit? \n 1. Yes \n 2. No \n Your Option : ");
+                            if (userOption.nextInt() == 1) {
+                                isRunning = false;
+                            }
+                            break;
+                        default:
+                            System.out.println(" Invalid option entered! Try again \n");
+                    }
+
+                }
+
+                System.out.print("\n Exiting the system.");
+                for (int i = 0; i < 10; i++) {
+                    System.out.print(".");
+                    Thread.sleep(250);
+                }
+                System.out.println("\n Have a nice Day !!");
+
+            } catch (SQLException | ClassNotFoundException exception) {
+                System.out.println(" Sever not found!!");
+            } catch (IOException exception) {
+                System.out.println(" An error occurred.");
+            } catch (InterruptedException exception) {
+                System.out.println(" Error in starting the program!!");
+            }
+        }
     }
 
-    private static void manageProducts() throws SQLException, ClassNotFoundException {
+    private static void manageProducts() throws SQLException, ClassNotFoundException, IOException {
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
         Scanner userOption = new Scanner(System.in);
         int userInput;
         String productDetails;
@@ -131,7 +137,7 @@ public class Main {
 
                 System.out.println(" ---Add a Product---");
                 productID = getNextID('P', productController.selectLastProduct(), product.getProductID());
-                System.out.print(" Enter Product ID : " + productID);
+                System.out.println(" Enter Product ID : " + productID);
                 product.setProductID(productID);
                 System.out.print(" Enter Product Name : ");
                 product.setProductName(userOption.nextLine());
@@ -147,6 +153,8 @@ public class Main {
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
                     System.out.println(productController.addProduct());
+                    FileOperator.writeFile("Product Report", product.getProductID(), "Insert", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Product Report"));
+
                 }
                 break;
             case 2:
@@ -194,6 +202,7 @@ public class Main {
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
                     System.out.println(productController.updateProduct());
+                    FileOperator.writeFile("Product Report", product.getProductID(), "Update", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Product Report"));
                 }
                 break;
             case 3:
@@ -216,6 +225,7 @@ public class Main {
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
                     System.out.println(productController.deleteProduct());
+                    FileOperator.writeFile("Product Report", product.getProductID(), "Delete", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Product Report"));
                 }
                 break;
             case 4:
@@ -247,7 +257,11 @@ public class Main {
     }
 
 
-    private static void manageCustomers() throws SQLException, ClassNotFoundException {
+    private static void manageCustomers() throws SQLException, ClassNotFoundException, IOException {
+
+        DateTimeFormatter date = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter time = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime currentDateTime = LocalDateTime.now();
         Scanner userOption = new Scanner(System.in);
         int userInput;
         String customerDetails;
@@ -274,7 +288,7 @@ public class Main {
 
                 System.out.println(" ---Add a Customer---");
                 customerID = getNextID('C', customerController.selectLastCustomer(), customer.getCustomerID());
-                System.out.print(" Enter Customers' ID : " + customerID);
+                System.out.println(" Enter Customers' ID : " + customerID);
                 customer.setCustomerID(customerID);
                 System.out.print(" Enter Customers' Name : ");
                 customer.setCustomerName(userOption.nextLine());
@@ -292,6 +306,7 @@ public class Main {
                 System.out.print("\n Are you sure you want to add? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
                     System.out.println(customerController.addCustomer());
+                    FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Insert", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
                 }
                 break;
             case 2:
@@ -344,6 +359,7 @@ public class Main {
                 System.out.print("\n Are you sure you want to update? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
                     System.out.println(customerController.updateCustomer());
+                    FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Update", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
                 }
                 break;
             case 3:
@@ -366,6 +382,7 @@ public class Main {
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
                     System.out.println(customerController.deleteCustomer());
+                    FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Delete", date.format(currentDateTime), time.format(currentDateTime), FileOperator.readFile("Customer Report"));
                 }
                 break;
             case 4:
@@ -424,7 +441,6 @@ public class Main {
         CustomerController customerController = new CustomerController(customer);
         Product product = new Product();
         ProductController productController = new ProductController(product);
-
         Invoice invoice = new Invoice();
         InvoiceController invoiceController = new InvoiceController(invoice);
 
@@ -434,19 +450,23 @@ public class Main {
         invoice.setCurrentDate(date.format(entryDateTime));
         invoice.setCheckInTime(time.format(entryDateTime));
 
-        while (true) {
-            System.out.print(" Enter customer ID or contact number : ");
-            customerDetails = userOption.nextLine();
-            customer.setCustomerID(customerDetails);
-            customer.setContactNumber(customerDetails);
-            if (customerController.selectCustomer()) {
-                customer.displayCustomer();
-                invoice.setCustomerID(customer.getCustomerID());
-                invoice.setCustomerName(customer.getCustomerName());
-                invoice.setCustomerContactNumber(customer.getContactNumber());
-                break;
-            } else
-                System.out.println(" Wrong Customer ID or Contact Number!! Try again...");
+        System.out.print(" Are you regular customer?\n 1. Yes\n 2. No\n Your Option :");
+        userInput = Integer.parseInt(userOption.nextLine());
+        if(userInput == 1) {
+            while (true) {
+                System.out.print(" Enter customer ID or contact number : ");
+                customerDetails = userOption.nextLine();
+                customer.setCustomerID(customerDetails);
+                customer.setContactNumber(customerDetails);
+                if (customerController.selectCustomer()) {
+                    customer.displayCustomer();
+                    invoice.setCustomerID(customer.getCustomerID());
+                    invoice.setCustomerName(customer.getCustomerName());
+                    invoice.setCustomerContactNumber(customer.getContactNumber());
+                    break;
+                } else
+                    System.out.println(" Wrong Customer ID or Contact Number!! Try again...");
+            }
         }
 
         while (true) {
@@ -465,13 +485,13 @@ public class Main {
                     productIDs.add(product.getProductID());
                     products.add(product.getProductName());
                     unitPrice.add(product.getSellingPrice());
-                    discountPerUnit.add((product.getSellingPrice() * discountPercentage) / 100); /// discount eka product by product denna oned naththn
-                    numberOfUnits.add(buyingQty); /// over all price ekata discount ekak denawada
+                    discountPerUnit.add((product.getSellingPrice() * discountPercentage) / 100);
+                    numberOfUnits.add(buyingQty);
 
                     product.setQty(product.getQty() - buyingQty);
                     productController.updateProduct();
 
-                    totalDiscount += (product.getSellingPrice() * discountPercentage) / 100;
+                    totalDiscount += (product.getSellingPrice() * discountPercentage) * buyingQty / 100;
                     subTotal += product.getSellingPrice() * buyingQty;
                 } else {
                     System.out.println(product.getQty() + " only left in the stock!!");
@@ -482,7 +502,7 @@ public class Main {
                 continue;
             }
 
-            System.out.println(" Do you want to add more items?\n 1. Yes\n 2. No\n Your Option : ");
+            System.out.print(" Do you want to add more items?\n 1. Yes\n 2. No\n Your Option : ");
             userInput = Integer.parseInt(userOption.nextLine());
             if (userInput != 1)
                 break;
@@ -509,8 +529,11 @@ public class Main {
             invoice.setCashAmount(cashAmount);
             invoice.setBalanceAmount(cashAmount - (subTotal - totalDiscount));
             System.out.println(" Balance : " + String.format("%.2f", invoice.getBalanceAmount()));
-        } else
+        } else {
             invoice.setPaymentMethod("Card");
+            invoice.setCashAmount(0.0);
+            invoice.setBalanceAmount(0.0);
+        }
 
 
         LocalDateTime exitDateTime = LocalDateTime.now();
@@ -518,9 +541,11 @@ public class Main {
 
 
         System.out.println(invoiceController.addInvoice());
+        FileOperator.writeFile("Invoice Report", invoice.getInvoiceNumber(), "Insert", invoice.getCurrentDate(), invoice.getCheckInTime(), FileOperator.readFile("Invoice Report"));
 
-        printBill(invoice);
+        FileOperator.printBill(invoice);
     }
+
 
     private static void manageUsers() throws SQLException, ClassNotFoundException {
         Scanner userOption = new Scanner(System.in);
@@ -549,7 +574,7 @@ public class Main {
 
                 System.out.println(" ---Add a User---");
                 userID = getNextID('U', userController.selectLastUser(), user.getUserID());
-                System.out.print(" Enter User ID : " + userID);
+                System.out.println(" Enter User ID : " + userID);
                 user.setUserID(userID);
                 System.out.print(" Enter Name : ");
                 user.setName(userOption.nextLine());
@@ -586,7 +611,7 @@ public class Main {
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                // display karanna
+                user.displayUser();
 
                 while (true) {
                     System.out.print(" Enter New Password : ");
@@ -620,7 +645,7 @@ public class Main {
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                //user.displayDetails();
+                user.displayUser();
 
                 System.out.print("\n Enter updated Name : ");
                 name = userOption.nextLine();
@@ -662,7 +687,7 @@ public class Main {
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                // product.displayDetails();
+                user.displayUser();
 
                 System.out.print("\n Are you sure you want to delete? \n 1. Yes \n 2. No \n Your Option : ");
                 if (userOption.nextInt() == 1) {
@@ -685,7 +710,7 @@ public class Main {
                     else
                         System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
                 }
-                // display
+                user.displayUser();
                 break;
             case 6:
                 System.out.println(" ---Display all Users---");
@@ -699,12 +724,14 @@ public class Main {
 
     }
 
-    // admin task complete karanna
-    private static void adminTask() throws SQLException, ClassNotFoundException {
+
+    private static void adminTask() throws SQLException, ClassNotFoundException, FileNotFoundException {
         Scanner userOption = new Scanner(System.in);
         int userInput;
 
-        System.out.print(" 1. Check last insert Product details.\n 2. Check last insert Customer details.\n 3. Check last insert Invoice details.\n 4. View all Invoices.\n 5. Search for an Invoice\n 6. Check last updated table.\n Your option : ");
+        System.out.print(" 1. Check last insert Product details.\n 2. Check last insert Customer details.\n 3. Check last insert Invoice details.\n" +
+                " 4. View all Invoices.\n 5. Search for an Invoice\n 6. Check Product Report.\n 7. Check Customer Report.\n" +
+                " 8. Check Invoice Report.  \n Your option : ");
         userInput = userOption.nextInt();
         switch (userInput) {
             case 1:
@@ -729,11 +756,34 @@ public class Main {
                 invoice.displayAllInvoices();
                 break;
             case 4:
+                System.out.println(" ---View all Invoices---");
+                invoice = new Invoice();
+                invoiceController = new InvoiceController(invoice);
+                invoiceController.selectAllInvoices();
+                break;
             case 5:
+                System.out.println(" ---Search for an Invoices---");
+                invoice = new Invoice();
+                invoiceController = new InvoiceController(invoice);
+                if (invoiceController.selectInvoice())
+                    invoice.displayAllInvoices();
+                else
+                    System.out.println(" Wrong invoice id has been entered!! Try again...");
+                break;
             case 6:
-
+                System.out.println(" ---Product Report---\n");
+                System.out.println(FileOperator.readFile("Product Report"));
+                break;
+            case 7:
+                System.out.println(" ---Customer Report---\n");
+                System.out.println(FileOperator.readFile("Customer Report"));
+                break;
+            case 8:
+                System.out.println(" ---Invoice Report---\n");
+                System.out.println(FileOperator.readFile("Invoice Report"));
                 break;
             default:
+                System.out.println(" Invalid option entered! Try again");
         }
 
 
@@ -744,37 +794,8 @@ public class Main {
 
     }
 
-    private static void printBill(Invoice invoice) throws IOException {
-        File temp = Paths.get("Invoices").toAbsolutePath().normalize().toFile();
-        FileWriter writer = new FileWriter(temp + "\\" + invoice.getInvoiceNumber() + ".txt");
-        writer.write(" \n\t\t ---ABC Company--- ");
-        writer.write("\n\n\n Invoice Number : " + invoice.getInvoiceNumber() + "\n Date : " + invoice.getCurrentDate());
-        writer.write("\n Check in Time : " + invoice.getCheckInTime() + "\n Check out Time : " + invoice.getCheckOutTime());
-        writer.write("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
-        for (int index = 0; index < invoice.getProducts().size(); index++) {
-            writer.write("\n " + invoice.getProducts().get(index));
-            writer.write("\n " + invoice.getProductIDs().get(index) + "\t\t    " + invoice.getNumberOfUnits().get(index) + "\t\t    " + invoice.getUnitPrice().get(index));
-            writer.write("\n Discount for product \t\t\t     -" + invoice.getDiscountPerUnit().get(index));
-        }
-        writer.write("\n\n Sub Total      : Rs." + String.format("%.2f", invoice.getSubTotal()));
-        writer.write("\n Total Discount : Rs." + String.format("%.2f", invoice.getTotalDiscount()));
-        writer.write("\n\n Total : Rs." + String.format("%.2f", (invoice.getTotalPrice())));
-        if (Objects.equals(invoice.getPaymentMethod(), "Cash")) {
-            writer.write("\n Cash : Rs." + invoice.getCashAmount());
-            writer.write("\n Change : Rs." + String.format("%.2f", (invoice.getBalanceAmount())));
-        } else {
-            writer.write("\n Card");
-        }
-        writer.write("\n\n Customer ID : " + invoice.getCustomerID());
-        writer.write("\n Customer Name : " + invoice.getCustomerName());
-        writer.write("\n Customer Contact Number : " + invoice.getCustomerContactNumber());
-        writer.write("\n\n\n\t   Thank you for Shopping with us \n\t\t   Come again!!");
-        writer.close();
-        System.out.println("Bill has been printed successfully!!.");
-    }
 
-
-    private static String getNextID(char startingLetter, boolean haveLast, String lastID) throws SQLException, ClassNotFoundException {
+    private static String getNextID(char startingLetter, boolean haveLast, String lastID) {
 
         if (haveLast) {
             String[] id = lastID.split("-");
