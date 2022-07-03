@@ -32,7 +32,11 @@ public class Invoice {
     private ArrayList<Double> discountPerUnit;
 
     public Invoice(){
-
+        this.cashAmount = 0.0;
+        this.balanceAmount = 0.0;
+        this.customerID = " ";
+        this.customerName = " ";
+        this.customerContactNumber = " ";
     }
 
     public Invoice(String invoiceNumber, String currentDate, String checkInTime, String checkOutTime, double subTotal, double totalDiscount, double totalPrice, double cashAmount, double balanceAmount, String paymentMethod, String customerID, String customerName, String customerContactNumber, String productList, String numberOfUnitsList, String unitPriceList, String discountPerUnitList, ArrayList<String> productIDs, ArrayList<String> products, ArrayList<Integer> numberOfUnits, ArrayList<Double> unitPrice, ArrayList<Double> discountPerUnit) {
@@ -249,8 +253,8 @@ public class Invoice {
         System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
         for (int index = 0; index < products.size(); index++) {
             System.out.print("\n " + products.get(index));
-            System.out.print("\n " + productIDs.get(index) + "\t\t    " + numberOfUnits.get(index) + "\t\t    " + unitPrice.get(index));
-            System.out.print("\n Discount for product \t\t\t     -" + discountPerUnit.get(index));
+            System.out.print("\n " + productIDs.get(index) + "\t\t       " + numberOfUnits.get(index) + "\t\t    " + unitPrice.get(index));
+            System.out.print("\n Discount per product \t\t\t     -" + discountPerUnit.get(index));
         }
         System.out.print("\n\n Sub Total      : Rs." + String.format("%.2f", subTotal));
         System.out.print("\n Total Discount : Rs." + String.format("%.2f", totalDiscount));
@@ -271,7 +275,7 @@ public class Invoice {
         for (int index = 0; index < pID.length; index++) {
             System.out.print("\n "+ p[index]);
             System.out.print("\n "+ pID[index] + "\t\t    " + n[index] + "\t\t    " + u[index]);
-            System.out.print("\n Discount for product \t\t\t     -" + d[index]);
+            System.out.print("\n Discount per product \t\t\t     -" + d[index]);
         }
         System.out.print("\n\n Sub Total      : Rs." + String.format("%.2f", subTotal));
         System.out.print("\n Total Discount : Rs." + String.format("%.2f", totalDiscount));
