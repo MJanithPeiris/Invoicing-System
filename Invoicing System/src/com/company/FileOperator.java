@@ -20,7 +20,7 @@ public class FileOperator {
         for (int index = 0; index < invoice.getProducts().size(); index++) {
             writer.write("\n " + invoice.getProducts().get(index));
             writer.write("\n " + invoice.getProductIDs().get(index) + "\t\t    " + invoice.getNumberOfUnits().get(index) + "\t\t    " + invoice.getUnitPrice().get(index));
-            writer.write("\n Discount for product \t\t\t     -" + invoice.getDiscountPerUnit().get(index));
+            writer.write("\n Discount per product \t\t\t     -" + invoice.getDiscountPerUnit().get(index));
         }
         writer.write("\n\n Sub Total      : Rs." + String.format("%.2f", invoice.getSubTotal()));
         writer.write("\n Total Discount : Rs." + String.format("%.2f", invoice.getTotalDiscount()));
