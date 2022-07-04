@@ -1,0 +1,32 @@
+ 
+		 ---ABC Company--- 
+
+
+ Invoice Number : I-000003
+ Date : 2022-07-04
+ Check in Time : 20:24:20
+ Check out Time : 20:25:06
+
+ Product Name 		 Quantity 	 Unit Price(Rs.)
+
+ GOLD MAARI
+ P-000001		    2		    110.0
+ Discount per product 			     -0.0
+ TIKIRI MAARI
+ P-000002		    2		    115.0
+ Discount per product 			     -0.0
+
+ Sub Total      : Rs.450.00
+ Total Discount : Rs.0.00
+
+ Total : Rs.450.00
+ Cash : Rs.450.0
+ Change : Rs.0.00
+
+ Customer ID : C-000001
+ Customer Name : JANITH PEIRIS
+ Customer Contact Number : 0711933120
+
+
+	   Thank you for Shopping with us 
+		   Come again!!
