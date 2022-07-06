@@ -38,15 +38,7 @@ public class CustomerController {
         ResultSet resultSet = statement.executeQuery(queryString);
 
         while (resultSet.next()) {
-
-            customer.setCustomerID(resultSet.getString("Customer_ID"));
-            customer.setCustomerName(resultSet.getString("Customer_Name"));
-            customer.setEmail(resultSet.getString("Email"));
-            customer.setAddress(resultSet.getString("Address"));
-            customer.setContactNumber(resultSet.getString("Contact_Number"));
-            customer.setDob(resultSet.getString("Date_of_Birth"));
-            customer.setGender(resultSet.getString("Gender"));
-
+            setData(customer, resultSet);
             customer.displayAllCustomers();
         }
     }
@@ -63,16 +55,9 @@ public class CustomerController {
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if (resultSet.next()) {
-            customer.setCustomerID(resultSet.getString("Customer_ID"));
-            customer.setCustomerName(resultSet.getString("Customer_Name"));
-            customer.setEmail(resultSet.getString("Email"));
-            customer.setAddress(resultSet.getString("Address"));
-            customer.setContactNumber(resultSet.getString("Contact_Number"));
-            customer.setDob(resultSet.getString("Date_of_Birth"));
-            customer.setGender(resultSet.getString("Gender"));
+            setData(customer, resultSet);
             return true;
         }
-//        customer.displayDetails();
         return false;
     }
 
@@ -126,17 +111,21 @@ public class CustomerController {
         String queryString = "SELECT * FROM Customer_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
 
-        if(resultSet.last()) {
-            customer.setCustomerID(resultSet.getString("Customer_ID"));
-            customer.setCustomerName(resultSet.getString("Customer_Name"));
-            customer.setEmail(resultSet.getString("Email"));
-            customer.setAddress(resultSet.getString("Address"));
-            customer.setContactNumber(resultSet.getString("Contact_Number"));
-            customer.setDob(resultSet.getString("Date_of_Birth"));
-            customer.setGender(resultSet.getString("Gender"));
-        }else{
-            return false;
+        if (resultSet.last()) {
+            setData(customer, resultSet);
+            return true;
         }
-        return true;
+        return false;
+    }
+
+
+    private static void setData(Customer customer, ResultSet resultSet) throws SQLException {
+        customer.setCustomerID(resultSet.getString("Customer_ID"));
+        customer.setCustomerName(resultSet.getString("Customer_Name"));
+        customer.setEmail(resultSet.getString("Email"));
+        customer.setAddress(resultSet.getString("Address"));
+        customer.setContactNumber(resultSet.getString("Contact_Number"));
+        customer.setDob(resultSet.getString("Date_of_Birth"));
+        customer.setGender(resultSet.getString("Gender"));
     }
 }
