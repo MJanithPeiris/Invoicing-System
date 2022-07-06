@@ -69,8 +69,13 @@ public class Product {
         return qty;
     }
 
-    public void displayAllProducts() {
-        System.out.println(" Product ID : " + productID + " | Product Name : " + productName + " | Description : " + description + " | Purchase Price : " + purchasePrice + " | Selling Price : " + sellingPrice + " | Quantity : " + qty);
+    public void setHeader(TableViewer tableViewer){
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("Product ID", "Product Name", "Description", "Purchase Price","Selling Price", "Quantity");
+    }
+
+    public void addRows(TableViewer tableViewer){
+        tableViewer.addRow(productID, productName, description,String.format("%.2f",purchasePrice),String.format("%.2f",sellingPrice),String.valueOf(qty));
     }
 
     public void displayProduct() {
