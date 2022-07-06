@@ -80,6 +80,10 @@ public class User {
     }
 
     public void displayUser() {
-        System.out.println(" User ID : " + userID + "\n Name : " + name + "\n User Name : " + userName + "\n Contact Number : " + contactNumber + "\n Email : " + email);
+        TableViewer tableViewer = new TableViewer();
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("User ID", "Name", "User Name", "Contact Number", "Email");
+        tableViewer.addRow(userID, name, userName,contactNumber,email);
+        tableViewer.print();
     }
 }
