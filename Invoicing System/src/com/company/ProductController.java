@@ -21,9 +21,9 @@ public class ProductController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return ("Data added successfully");
+            return ("Product is added successfully");
         } else {
-            return ("Data added unsuccessfully");
+            return ("Product is added unsuccessfully");
         }
     }
 
@@ -38,10 +38,14 @@ public class ProductController {
         String queryString = "SELECT * FROM Product_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
 
+        TableViewer tableViewer = new TableViewer();
+        product.setHeader(tableViewer);
+
         while (resultSet.next()) {
             setData(product, resultSet);
-            product.displayAllProducts();
+            product.addRows(tableViewer);
         }
+        tableViewer.print();
     }
 
     // get a selected product details
@@ -76,9 +80,9 @@ public class ProductController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return (" Data updated successfully");
+            return (" Product is updated successfully");
         } else {
-            return (" Data updated unsuccessfully");
+            return (" Product is updated unsuccessfully");
         }
     }
 
@@ -95,9 +99,9 @@ public class ProductController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return (" Data deleted successfully");
+            return (" Product is deleted successfully");
         } else {
-            return (" Data deleted unsuccessfully");
+            return (" Product is deleted unsuccessfully");
         }
     }
 
