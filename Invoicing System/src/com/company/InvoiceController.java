@@ -15,8 +15,8 @@ public class InvoiceController {
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         // insert query for database
-        String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, ProductIDs, Products, Units_Per_Product, Unit_Price_Per_Product, Total_Price, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number) " +
-                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList(invoice) +"','"+ getProductList(invoice) +"','"+ getUnitsPerProductList(invoice) +"','"+ getPricePerProductList(invoice) +"','"+ getTotalPricePerProductList(invoice) +"','"+ getDiscountPerProductList(invoice) +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"');";
+        String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, ProductIDs, Products, Units_Per_Product, Unit_Price_Per_Product, Total_Price, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number, Cashier_ID) " +
+                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList(invoice) +"','"+ getProductList(invoice) +"','"+ getUnitsPerProductList(invoice) +"','"+ getPricePerProductList(invoice) +"','"+ getTotalPricePerProductList(invoice) +"','"+ getDiscountPerProductList(invoice) +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"','"+ invoice.getCashierID() +"');";
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
@@ -121,6 +121,7 @@ public class InvoiceController {
         invoice.setCustomerID(resultSet.getString("Customer_ID"));
         invoice.setCustomerName(resultSet.getString("Customer_Name"));
         invoice.setCustomerContactNumber(resultSet.getString("Contact_Number"));
+        invoice.setCashierID(resultSet.getString("Cashier_ID"));
     }
 
 
