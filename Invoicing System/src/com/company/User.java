@@ -75,15 +75,20 @@ public class User {
         return email;
     }
 
-    public void displayAllUsers() {
-        System.out.println(" User ID : " + userID + " | Name : " + name + " | User Name : " + userName + " | Contact Number : " + contactNumber + " | Email : " + email);
+    public void setHeader(TableViewer tableViewer) {
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("User ID", "Name", "User Name", "Contact Number", "Email");
+    }
+
+    public void addRows(TableViewer tableViewer) {
+        tableViewer.addRow(userID, name, userName, contactNumber, email);
     }
 
     public void displayUser() {
         TableViewer tableViewer = new TableViewer();
         tableViewer.setShowVerticalLines(true);
         tableViewer.setHeaders("User ID", "Name", "User Name", "Contact Number", "Email");
-        tableViewer.addRow(userID, name, userName,contactNumber,email);
+        tableViewer.addRow(userID, name, userName, contactNumber, email);
         tableViewer.print();
     }
 }
