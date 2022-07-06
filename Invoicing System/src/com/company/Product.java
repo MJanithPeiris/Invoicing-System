@@ -74,6 +74,10 @@ public class Product {
     }
 
     public void displayProduct() {
-        System.out.println(" Product ID : " + productID + " \n Product Name : " + productName + " \n Description : " + description + " \n Purchase Price : " + purchasePrice + " \n Selling Price : " + sellingPrice + " \n Quantity : " + qty);
+        TableViewer tableViewer = new TableViewer();
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("Product ID", "Product Name", "Description", "Purchase Price","Selling Price", "Quantity");
+        tableViewer.addRow(productID, productName, description,String.format("%.2f",purchasePrice),String.format("%.2f",sellingPrice),String.valueOf(qty));
+        tableViewer.print();
     }
 }
