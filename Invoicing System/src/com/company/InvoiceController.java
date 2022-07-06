@@ -20,9 +20,9 @@ public class InvoiceController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return ("Invoice added successfully");
+            return ("Invoice is added successfully");
         } else {
-            return ("Invoice added unsuccessfully");
+            return ("Invoice is added unsuccessfully");
         }
     }
 
@@ -44,11 +44,14 @@ public class InvoiceController {
 
         ResultSet resultSet = statement.executeQuery(queryString);
 
+        TableViewer tableViewer = new TableViewer();
+        invoice.setHeader(tableViewer);
+
         while (resultSet.next()) {
             setData(invoice, resultSet);
-
-            invoice.displayAllInvoices();
+            invoice.addRows(tableViewer);
         }
+        tableViewer.print();
     }
 
     public static boolean selectInvoice(Invoice invoice) throws SQLException, ClassNotFoundException {
@@ -95,9 +98,9 @@ public class InvoiceController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return (" Data deleted successfully");
+            return (" Invoice is deleted successfully");
         } else {
-            return (" Data deleted unsuccessfully");
+            return (" Invoice is deleted unsuccessfully");
         }
     }
 
