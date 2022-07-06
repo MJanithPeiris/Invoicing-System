@@ -85,8 +85,13 @@ public class Customer {
         return gender;
     }
 
-    public void displayAllCustomers(){
-        System.out.println(" Customer ID : " + customerID + " | Customer Name : " + customerName + " | Email : " + email + " | Address : " + address + " | Contact Number : " + contactNumber + " | Date of Birth : " + dob +" | Gender : " + gender);
+    public void setHeader(TableViewer tableViewer){
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("Customer ID", "Customer Name", "Email", "Address","Contact Number", "Date of Birth","Gender");
+    }
+
+    public void addRows(TableViewer tableViewer){
+        tableViewer.addRow(customerID, customerName, email,address,contactNumber,dob,gender);
     }
 
     public void displayCustomer(){
