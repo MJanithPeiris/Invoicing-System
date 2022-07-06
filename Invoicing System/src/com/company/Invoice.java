@@ -289,6 +289,70 @@ public class Invoice {
         System.out.println("\n\n Total : Rs." + String.format("%.2f", (totalPrice)));
     }
 
+    public void setHeader(TableViewer tableViewer){
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("Invoice Number", "Date", "Check in Time", "Check out Time","Product ID", "Product Name","Quantity","Unit Price(Rs.)","Total Price(Rs.)","Discount per product","Sub Total", "Total Discount","Total","Payment Method","Balance", "Customer ID","Customer Name","Customer Contact Number", "Cashier ID");
+    }
+
+    public void addRows(TableViewer tableViewer){
+        String[] pID = productIDList.split("\n");
+        String[] p = productList.split("\n");
+        String[] n = numberOfUnitsList.split("\n");
+        String[] u = unitPriceList.split("\n");
+        String[] d = discountPerUnitList.split("\n");
+        String[] t = totalPricePerProductList.split("\n");
+
+        String pIDs = "";
+        for (int i = 0; i < pID.length; i++) {
+            pIDs += pID[i];
+            if(i < pID.length-1){
+                pIDs+= ",";
+            }
+        }
+
+        String ps = "";
+        for (int i = 0; i < p.length; i++) {
+            ps += p[i];
+            if(i < p.length-1){
+                ps+= ",";
+            }
+        }
+
+        String ns = "";
+        for (int i = 0; i < n.length; i++) {
+            ns += n[i];
+            if(i < n.length-1){
+                ns+= ",";
+            }
+        }
+
+        String us = "";
+        for (int i = 0; i < u.length; i++) {
+            us += u[i];
+            if(i < u.length-1){
+                us+= ",";
+            }
+        }
+
+        String ds = "";
+        for (int i = 0; i < d.length; i++) {
+            ds += d[i];
+            if(i < d.length-1){
+                ds+= ",";
+            }
+        }
+
+        String ts = "";
+        for (int i = 0; i < t.length; i++) {
+            ts += t[i];
+            if(i < t.length-1){
+                ts+= ",";
+            }
+        }
+
+        tableViewer.addRow(invoiceNumber, currentDate, checkInTime,checkOutTime,pIDs,ps,ns,us,ts,ds,String.format("%.2f", subTotal),String.format("%.2f", totalDiscount),String.format("%.2f", totalPrice),paymentMethod,String.format("%.2f", balanceAmount),customerID,customerName,customerContactNumber,cashierID);
+    }
+
     public void displayAllInvoices(){
 
         String[] pID = productIDList.split("\n");
