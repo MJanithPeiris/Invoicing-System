@@ -20,9 +20,9 @@ public class UserController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return ("Data added successfully");
+            return ("User is added successfully");
         } else {
-            return ("Data added unsuccessfully");
+            return ("User is added unsuccessfully");
         }
     }
 
@@ -37,10 +37,14 @@ public class UserController {
         String queryString = "SELECT * FROM User_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
 
+        TableViewer tableViewer = new TableViewer();
+        user.setHeader(tableViewer);
+
         while (resultSet.next()) {
             setData(user,resultSet);
-            user.displayAllUsers();
+            user.addRows(tableViewer);
         }
+        tableViewer.print();
     }
 
     // get a selected product details
@@ -75,9 +79,9 @@ public class UserController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return (" Data updated successfully");
+            return (" User is updated successfully");
         } else {
-            return (" Data updated unsuccessfully");
+            return (" User is updated unsuccessfully");
         }
     }
 
@@ -94,9 +98,9 @@ public class UserController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return (" Data deleted successfully");
+            return (" User is deleted successfully");
         } else {
-            return (" Data deleted unsuccessfully");
+            return (" User is deleted unsuccessfully");
         }
     }
 
