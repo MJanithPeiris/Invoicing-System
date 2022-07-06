@@ -1,8 +1,6 @@
 package com.company;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Objects;
 
 public class Invoice {
 
@@ -24,12 +22,14 @@ public class Invoice {
     private String numberOfUnitsList;
     private String unitPriceList;
     private String discountPerUnitList;
+    private String totalPricePerProductList;
 
     private ArrayList<String> productIDs;
     private ArrayList<String> products;
     private ArrayList<Integer> numberOfUnits;
     private ArrayList<Double> unitPrice;
     private ArrayList<Double> discountPerUnit;
+    private ArrayList<Double> totalPricePerProduct;
 
     public Invoice(){
         this.cashAmount = 0.0;
@@ -39,7 +39,7 @@ public class Invoice {
         this.customerContactNumber = " ";
     }
 
-    public Invoice(String invoiceNumber, String currentDate, String checkInTime, String checkOutTime, double subTotal, double totalDiscount, double totalPrice, double cashAmount, double balanceAmount, String paymentMethod, String customerID, String customerName, String customerContactNumber, String productList, String numberOfUnitsList, String unitPriceList, String discountPerUnitList, ArrayList<String> productIDs, ArrayList<String> products, ArrayList<Integer> numberOfUnits, ArrayList<Double> unitPrice, ArrayList<Double> discountPerUnit) {
+    public Invoice(String invoiceNumber, String currentDate, String checkInTime, String checkOutTime, double subTotal, double totalDiscount, double totalPrice, double cashAmount, double balanceAmount, String paymentMethod, String customerID, String customerName, String customerContactNumber, String productIDList, String productList, String numberOfUnitsList, String unitPriceList, String discountPerUnitList, String totalPricePerProductList, ArrayList<String> productIDs, ArrayList<String> products, ArrayList<Integer> numberOfUnits, ArrayList<Double> unitPrice, ArrayList<Double> discountPerUnit, ArrayList<Double> totalPricePerProduct) {
         this.invoiceNumber = invoiceNumber;
         this.currentDate = currentDate;
         this.checkInTime = checkInTime;
@@ -53,15 +53,18 @@ public class Invoice {
         this.customerID = customerID;
         this.customerName = customerName;
         this.customerContactNumber = customerContactNumber;
+        this.productIDList = productIDList;
         this.productList = productList;
         this.numberOfUnitsList = numberOfUnitsList;
         this.unitPriceList = unitPriceList;
         this.discountPerUnitList = discountPerUnitList;
+        this.totalPricePerProductList = totalPricePerProductList;
         this.productIDs = productIDs;
         this.products = products;
         this.numberOfUnits = numberOfUnits;
         this.unitPrice = unitPrice;
         this.discountPerUnit = discountPerUnit;
+        this.totalPricePerProduct = totalPricePerProduct;
     }
 
     public void setCurrentDate(String currentDate) {
@@ -128,6 +131,10 @@ public class Invoice {
         this.discountPerUnitList = discountPerUnitList;
     }
 
+    public void setTotalPricePerProductList(String totalPricePerProductList) {
+        this.totalPricePerProductList = totalPricePerProductList;
+    }
+
     public void setProductIDs(ArrayList<String> productIDs) {
         this.productIDs = productIDs;
     }
@@ -146,6 +153,10 @@ public class Invoice {
 
     public void setDiscountPerUnit(ArrayList<Double> discountPerUnit) {
         this.discountPerUnit = discountPerUnit;
+    }
+
+    public void setTotalPricePerProduct(ArrayList<Double> totalPricePerProduct) {
+        this.totalPricePerProduct = totalPricePerProduct;
     }
 
     public void setCashAmount(double cashAmount) {
@@ -220,6 +231,10 @@ public class Invoice {
         return discountPerUnitList;
     }
 
+    public String getTotalPricePerProductList() {
+        return totalPricePerProductList;
+    }
+
     public ArrayList<String> getProductIDs() {
         return productIDs;
     }
@@ -240,6 +255,10 @@ public class Invoice {
         return discountPerUnit;
     }
 
+    public ArrayList<Double> getTotalPricePerProduct() {
+        return totalPricePerProduct;
+    }
+
     public double getCashAmount() {
         return cashAmount;
     }
@@ -250,15 +269,15 @@ public class Invoice {
 
     public void displayBill(){
 
-        System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
+        System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.) \t Total Price(Rs.)\n");
         for (int index = 0; index < products.size(); index++) {
             System.out.print("\n " + products.get(index));
-            System.out.print("\n " + productIDs.get(index) + "\t\t       " + numberOfUnits.get(index) + "\t\t    " + unitPrice.get(index));
-            System.out.print("\n Discount per product \t\t\t     -" + discountPerUnit.get(index));
+            System.out.print("\n " + productIDs.get(index) + "\t\t        " + numberOfUnits.get(index) + "\t\t   " + unitPrice.get(index) + "\t\t\t\t " + totalPricePerProduct.get(index));
+            System.out.print("\n Discount per product \t\t\t\t\t\t\t\t      -" + discountPerUnit.get(index));
         }
         System.out.print("\n\n Sub Total      : Rs." + String.format("%.2f", subTotal));
         System.out.print("\n Total Discount : Rs." + String.format("%.2f", totalDiscount));
-        System.out.print("\n\n Total : Rs." + String.format("%.2f", (totalPrice)));
+        System.out.println("\n\n Total : Rs." + String.format("%.2f", (totalPrice)));
     }
 
     public void displayAllInvoices(){
@@ -268,26 +287,84 @@ public class Invoice {
         String[] n = numberOfUnitsList.split("\n");
         String[] u = unitPriceList.split("\n");
         String[] d = discountPerUnitList.split("\n");
+        String[] t = totalPricePerProductList.split("\n");
 
-        System.out.print("\n\n Invoice Number : " + invoiceNumber + "\n Date : " + currentDate);
-        System.out.print("\n Check in Time : " + checkInTime + "\n Check out Time : " + checkOutTime);
-        System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
-        for (int index = 0; index < pID.length; index++) {
-            System.out.print("\n "+ p[index]);
-            System.out.print("\n "+ pID[index] + "\t\t    " + n[index] + "\t\t    " + u[index]);
-            System.out.print("\n Discount per product \t\t\t     -" + d[index]);
+        String pIDs = "";
+        for (int i = 0; i < pID.length; i++) {
+            pIDs += pID[i];
+            if(i < pID.length-1){
+                pIDs+= ",";
+            }
         }
-        System.out.print("\n\n Sub Total      : Rs." + String.format("%.2f", subTotal));
-        System.out.print("\n Total Discount : Rs." + String.format("%.2f", totalDiscount));
-        System.out.print("\n\n Total : Rs." + String.format("%.2f", (totalPrice)));
-        if(Objects.equals(paymentMethod, "Cash")){
-            System.out.print("\n Cash : Rs." + cashAmount);
-            System.out.print("\n Change : Rs." + String.format("%.2f", (balanceAmount)));
-        }else{
-            System.out.print("\n Card");
+
+        String ps = "";
+        for (int i = 0; i < p.length; i++) {
+            ps += p[i];
+            if(i < p.length-1){
+                ps+= ",";
+            }
         }
-        System.out.print("\n\n Customer ID : " + customerID);
-        System.out.print("\n Customer Name : " + customerName);
-        System.out.print("\n Customer Contact Number : " + customerContactNumber);
+
+        String ns = "";
+        for (int i = 0; i < n.length; i++) {
+            ns += n[i];
+            if(i < n.length-1){
+                ns+= ",";
+            }
+        }
+
+        String us = "";
+        for (int i = 0; i < u.length; i++) {
+            us += u[i];
+            if(i < u.length-1){
+                us+= ",";
+            }
+        }
+
+        String ds = "";
+        for (int i = 0; i < d.length; i++) {
+            ds += d[i];
+            if(i < d.length-1){
+                ds+= ",";
+            }
+        }
+
+        String ts = "";
+        for (int i = 0; i < t.length; i++) {
+            ts += t[i];
+            if(i < t.length-1){
+                ts+= ",";
+            }
+        }
+
+//
+//        System.out.print("\n\n Invoice Number : " + invoiceNumber + "\n Date : " + currentDate);
+//        System.out.print("\n Check in Time : " + checkInTime + "\n Check out Time : " + checkOutTime);
+//        System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
+//        for (int index = 0; index < pID.length; index++) {
+//            System.out.print("\n "+ p[index]);
+//            System.out.print("\n "+ pID[index] + "\t\t    " + n[index] + "\t\t    " + u[index]);
+//            System.out.print("\n Discount per product \t\t\t     -" + d[index]);
+//        }
+//        System.out.print("\n\n Sub Total      : Rs." + String.format("%.2f", subTotal));
+//        System.out.print("\n Total Discount : Rs." + String.format("%.2f", totalDiscount));
+//        System.out.print("\n\n Total : Rs." + String.format("%.2f", totalPrice));
+//        if(Objects.equals(paymentMethod, "Cash")){
+//            System.out.print("\n Cash : Rs." + cashAmount);
+//            System.out.print("\n Change : Rs." + String.format("%.2f", balanceAmount));
+//        }else{
+//            System.out.print("\n Card");
+//        }
+//        System.out.print("\n\n Customer ID : " + customerID);
+//        System.out.print("\n Customer Name : " + customerName);
+//        System.out.print("\n Customer Contact Number : " + customerContactNumber);
+
+        TableViewer tableViewer = new TableViewer();
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("Invoice Number", "Date", "Check in Time", "Check out Time","Product ID", "Product Name","Quantity","Unit Price(Rs.)","Total Price(Rs.)","Discount per product","Sub Total", "Total Discount","Total","Payment Method","Balance", "Customer ID","Customer Name","Customer Contact Number");
+        tableViewer.addRow(invoiceNumber, currentDate, checkInTime,checkOutTime,pIDs,ps,ns,us,ts,ds,String.format("%.2f", subTotal),String.format("%.2f", totalDiscount),String.format("%.2f", totalPrice),paymentMethod,String.format("%.2f", balanceAmount),customerID,customerName,customerContactNumber);
+        tableViewer.print();
+        System.out.println("\n");
+
     }
 }
