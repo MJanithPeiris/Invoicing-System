@@ -15,8 +15,8 @@ public class InvoiceController {
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
         // insert query for database
-        String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, ProductIDs, Products, Units_Per_Product, Unit_Price_Per_Product, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number) " +
-                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList(invoice) +"','"+ getProductList(invoice) +"','"+ getUnitsPerProductList(invoice) +"','"+ getPricePerProductList(invoice) +"','"+ getDiscountPerProductList(invoice) +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"');";
+        String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, ProductIDs, Products, Units_Per_Product, Unit_Price_Per_Product, Total_Price, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number) " +
+                "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList(invoice) +"','"+ getProductList(invoice) +"','"+ getUnitsPerProductList(invoice) +"','"+ getPricePerProductList(invoice) +"','"+ getTotalPricePerProductList(invoice) +"','"+ getDiscountPerProductList(invoice) +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"');";
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
@@ -26,35 +26,26 @@ public class InvoiceController {
         }
     }
 
-    public static void selectAllInvoices(Invoice invoice) throws SQLException, ClassNotFoundException {
+    public static void selectAllInvoices(Invoice invoice, int selectOption, String startDate, String endDate) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
         connector.setDBConnection();
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        String queryString = "SELECT * FROM Invoice_Details;";
+        String queryString;
+        if (selectOption == 1)
+            queryString = "SELECT * FROM Invoice_Details WHERE DATE BETWEEN '" + startDate + "' AND '" + endDate + "';";
+        else if (selectOption == 2)
+            queryString = "SELECT * FROM Invoice_Details WHERE Customer_ID = '" + invoice.getCustomerID() + "' OR Contact_Number = '" + invoice.getCustomerContactNumber() + "';";
+
+        else
+            queryString = "SELECT * FROM Invoice_Details;";
+
         ResultSet resultSet = statement.executeQuery(queryString);
 
         while (resultSet.next()) {
-            invoice.setInvoiceNumber(resultSet.getString("Invoice_Number"));
-            invoice.setCurrentDate(resultSet.getString("Date"));
-            invoice.setCheckInTime(resultSet.getString("Check_In_Time"));
-            invoice.setCheckOutTime(resultSet.getString("Check_Out_Time"));
-            invoice.setProductIDList(resultSet.getString("ProductIDs"));
-            invoice.setProductList(resultSet.getString("Products"));
-            invoice.setNumberOfUnitsList(resultSet.getString("Units_Per_Product"));
-            invoice.setUnitPriceList(resultSet.getString("Unit_Price_Per_Product"));
-            invoice.setDiscountPerUnitList(resultSet.getString("Discount_Per_Product"));
-            invoice.setSubTotal(Double.parseDouble(resultSet.getString("Sub_Total")));
-            invoice.setTotalDiscount(Double.parseDouble(resultSet.getString("Total_Discount")));
-            invoice.setTotalPrice(Double.parseDouble(resultSet.getString("Total")));
-            invoice.setPaymentMethod(resultSet.getString("Payment_Method"));
-            invoice.setCashAmount(Double.parseDouble(resultSet.getString("Cash_Amount")));
-            invoice.setBalanceAmount(Double.parseDouble(resultSet.getString("Balance")));
-            invoice.setCustomerID(resultSet.getString("Customer_ID"));
-            invoice.setCustomerName(resultSet.getString("Customer_Name"));
-            invoice.setCustomerContactNumber(resultSet.getString("Contact_Number"));
+            setData(invoice, resultSet);
 
             invoice.displayAllInvoices();
         }
@@ -71,28 +62,9 @@ public class InvoiceController {
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if (resultSet.next()) {
-            invoice.setInvoiceNumber(resultSet.getString("Invoice_Number"));
-            invoice.setCurrentDate(resultSet.getString("Date"));
-            invoice.setCheckInTime(resultSet.getString("Check_In_Time"));
-            invoice.setCheckOutTime(resultSet.getString("Check_Out_Time"));
-            invoice.setProductIDList(resultSet.getString("ProductIDs"));
-            invoice.setProductList(resultSet.getString("Products"));
-            invoice.setNumberOfUnitsList(resultSet.getString("Units_Per_Product"));
-            invoice.setUnitPriceList(resultSet.getString("Unit_Price_Per_Product"));
-            invoice.setDiscountPerUnitList(resultSet.getString("Discount_Per_Product"));
-            invoice.setSubTotal(Double.parseDouble(resultSet.getString("Sub_Total")));
-            invoice.setTotalDiscount(Double.parseDouble(resultSet.getString("Total_Discount")));
-            invoice.setTotalPrice(Double.parseDouble(resultSet.getString("Total")));
-            invoice.setPaymentMethod(resultSet.getString("Payment_Method"));
-            invoice.setCashAmount(Double.parseDouble(resultSet.getString("Cash_Amount")));
-            invoice.setBalanceAmount(Double.parseDouble(resultSet.getString("Balance")));
-            invoice.setCustomerID(resultSet.getString("Customer_ID"));
-            invoice.setCustomerName(resultSet.getString("Customer_Name"));
-            invoice.setCustomerContactNumber(resultSet.getString("Contact_Number"));
-
+            setData(invoice,resultSet);
             return true;
         }
-
         return false;
     }
 
@@ -106,29 +78,49 @@ public class InvoiceController {
         String queryString = "SELECT * FROM Invoice_Details;";
         ResultSet resultSet = statement.executeQuery(queryString);
 
-        if(resultSet.last()) {
-            invoice.setInvoiceNumber(resultSet.getString("Invoice_Number"));
-            invoice.setCurrentDate(resultSet.getString("Date"));
-            invoice.setCheckInTime(resultSet.getString("Check_In_Time"));
-            invoice.setCheckOutTime(resultSet.getString("Check_Out_Time"));
-            invoice.setProductIDList(resultSet.getString("ProductIDs"));
-            invoice.setProductList(resultSet.getString("Products"));
-            invoice.setNumberOfUnitsList(resultSet.getString("Units_Per_Product"));
-            invoice.setUnitPriceList(resultSet.getString("Unit_Price_Per_Product"));
-            invoice.setDiscountPerUnitList(resultSet.getString("Discount_Per_Product"));
-            invoice.setSubTotal(Double.parseDouble(resultSet.getString("Sub_Total")));
-            invoice.setTotalDiscount(Double.parseDouble(resultSet.getString("Total_Discount")));
-            invoice.setTotalPrice(Double.parseDouble(resultSet.getString("Total")));
-            invoice.setPaymentMethod(resultSet.getString("Payment_Method"));
-            invoice.setCashAmount(Double.parseDouble(resultSet.getString("Cash_Amount")));
-            invoice.setBalanceAmount(Double.parseDouble(resultSet.getString("Balance")));
-            invoice.setCustomerID(resultSet.getString("Customer_ID"));
-            invoice.setCustomerName(resultSet.getString("Customer_Name"));
-            invoice.setCustomerContactNumber(resultSet.getString("Contact_Number"));
-        }else{
-            return false;
+        if (resultSet.last()) {
+            setData(invoice, resultSet);
+            return true;
         }
-        return true;
+        return false;
+    }
+
+    public static String deleteInvoice(Invoice invoice) throws SQLException, ClassNotFoundException {
+        DBConnector connector = new DBConnector();
+        connector.setDBConnection();
+        Connection connection;
+        connection = connector.getDBConnection();
+        Statement statement = connection.createStatement();
+        String queryString = "DELETE FROM Invoice_Details WHERE Invoice_Number = '" + invoice.getInvoiceNumber() + "';";
+        int i = statement.executeUpdate(queryString);
+
+        if (i != 0) {
+            return (" Data deleted successfully");
+        } else {
+            return (" Data deleted unsuccessfully");
+        }
+    }
+
+    private static void setData(Invoice invoice, ResultSet resultSet) throws SQLException {
+        invoice.setInvoiceNumber(resultSet.getString("Invoice_Number"));
+        invoice.setCurrentDate(resultSet.getString("Date"));
+        invoice.setCheckInTime(resultSet.getString("Check_In_Time"));
+        invoice.setCheckOutTime(resultSet.getString("Check_Out_Time"));
+        invoice.setProductIDList(resultSet.getString("ProductIDs"));
+        invoice.setProductList(resultSet.getString("Products"));
+        invoice.setNumberOfUnitsList(resultSet.getString("Units_Per_Product"));
+        invoice.setUnitPriceList(resultSet.getString("Unit_Price_Per_Product"));
+        invoice.setTotalPricePerProductList(resultSet.getString("Total_Price"));
+        invoice.setDiscountPerUnitList(resultSet.getString("Discount_Per_Product"));
+        invoice.setSubTotal(Double.parseDouble(resultSet.getString("Sub_Total")));
+        invoice.setTotalDiscount(Double.parseDouble(resultSet.getString("Total_Discount")));
+        invoice.setTotalPrice(Double.parseDouble(resultSet.getString("Total")));
+        invoice.setPaymentMethod(resultSet.getString("Payment_Method"));
+        invoice.setCashAmount(Double.parseDouble(resultSet.getString("Cash_Amount")));
+        invoice.setBalanceAmount(Double.parseDouble(resultSet.getString("Balance")));
+        invoice.setCustomerID(resultSet.getString("Customer_ID"));
+        invoice.setCustomerName(resultSet.getString("Customer_Name"));
+        invoice.setCustomerContactNumber(resultSet.getString("Contact_Number"));
     }
 
 
@@ -136,7 +128,10 @@ public class InvoiceController {
         String productIDs = "";
 
         for (int index = 0; index < invoice.getProductIDs().size(); index++) {
-            productIDs += invoice.getProductIDs().get(index) + "\n";
+            productIDs += invoice.getProductIDs().get(index);
+            if(index < invoice.getProductIDs().size()-1){
+                productIDs += "\n";
+            }
         }
         return productIDs;
     }
@@ -145,7 +140,10 @@ public class InvoiceController {
         String products = "";
 
         for (int index = 0; index < invoice.getProducts().size(); index++) {
-            products += invoice.getProducts().get(index) + "\n";
+            products += invoice.getProducts().get(index);
+            if(index < invoice.getProducts().size()-1){
+                products += "\n";
+            }
         }
         return products;
     }
@@ -154,7 +152,10 @@ public class InvoiceController {
         String numberOfUnits = "";
 
         for (int index = 0; index < invoice.getNumberOfUnits().size(); index++) {
-            numberOfUnits += invoice.getNumberOfUnits().get(index) + "\n";
+            numberOfUnits += invoice.getNumberOfUnits().get(index) ;
+            if(index < invoice.getNumberOfUnits().size()-1){
+                numberOfUnits += "\n";
+            }
         }
         return numberOfUnits;
     }
@@ -163,17 +164,36 @@ public class InvoiceController {
         String unitPrice = "";
 
         for (int index = 0; index < invoice.getUnitPrice().size(); index++) {
-            unitPrice += invoice.getUnitPrice().get(index) + "\n";
+            unitPrice += invoice.getUnitPrice().get(index);
+            if(index < invoice.getUnitPrice().size()-1){
+                unitPrice += "\n";
+            }
         }
         return unitPrice;
+    }
+
+    private static String getTotalPricePerProductList(Invoice invoice){
+        String totalPrice = "";
+
+        for (int index = 0; index < invoice.getTotalPricePerProduct().size(); index++) {
+            totalPrice += invoice.getTotalPricePerProduct().get(index);
+            if(index < invoice.getTotalPricePerProduct().size()-1){
+                totalPrice += "\n";
+            }
+        }
+        return totalPrice;
     }
 
     private static String getDiscountPerProductList(Invoice invoice){
         String discountPerProduct = "";
 
         for (int index = 0; index < invoice.getDiscountPerUnit().size(); index++) {
-            discountPerProduct += invoice.getDiscountPerUnit().get(index) + "\n";
+            discountPerProduct += invoice.getDiscountPerUnit().get(index);
+            if(index < invoice.getDiscountPerUnit().size()-1){
+                discountPerProduct += "\n";
+            }
         }
         return discountPerProduct;
     }
+
 }
