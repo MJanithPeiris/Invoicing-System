@@ -39,14 +39,7 @@ public class ProductController {
         ResultSet resultSet = statement.executeQuery(queryString);
 
         while (resultSet.next()) {
-
-            product.setProductID(resultSet.getString("Product_ID"));
-            product.setProductName(resultSet.getString("Product_Name"));
-            product.setDescription(resultSet.getString("Description"));
-            product.setPurchasePrice(Double.parseDouble(resultSet.getString("Purchase_Price")));
-            product.setSellingPrice(Double.parseDouble(resultSet.getString("Selling_Price")));
-            product.setQty(Integer.parseInt(resultSet.getString("Quantity")));
-
+            setData(product, resultSet);
             product.displayAllProducts();
         }
     }
@@ -63,15 +56,9 @@ public class ProductController {
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if (resultSet.next()) {
-            product.setProductID(resultSet.getString("Product_ID"));
-            product.setProductName(resultSet.getString("Product_Name"));
-            product.setDescription(resultSet.getString("Description"));
-            product.setPurchasePrice(Double.parseDouble(resultSet.getString("Purchase_Price")));
-            product.setSellingPrice(Double.parseDouble(resultSet.getString("Selling_Price")));
-            product.setQty(Integer.parseInt(resultSet.getString("Quantity")));
+            setData(product, resultSet);
             return true;
         }
-//        product.displayDetails();
         return false;
     }
 
@@ -125,16 +112,20 @@ public class ProductController {
         String queryString = "SELECT * FROM Product_Details;";
         ResultSet resultSet = statement.executeQuery(queryString);
 
-        if(resultSet.last()) {
-            product.setProductID(resultSet.getString("Product_ID"));
-            product.setProductName(resultSet.getString("Product_Name"));
-            product.setDescription(resultSet.getString("Description"));
-            product.setPurchasePrice(Double.parseDouble(resultSet.getString("Purchase_Price")));
-            product.setSellingPrice(Double.parseDouble(resultSet.getString("Selling_Price")));
-            product.setQty(Integer.parseInt(resultSet.getString("Quantity")));
-        }else{
-            return false;
+        if (resultSet.last()) {
+            setData(product, resultSet);
+            return true;
         }
-        return true;
+        return false;
+    }
+
+
+    private static void setData(Product product,ResultSet resultSet) throws SQLException {
+        product.setProductID(resultSet.getString("Product_ID"));
+        product.setProductName(resultSet.getString("Product_Name"));
+        product.setDescription(resultSet.getString("Description"));
+        product.setPurchasePrice(Double.parseDouble(resultSet.getString("Purchase_Price")));
+        product.setSellingPrice(Double.parseDouble(resultSet.getString("Selling_Price")));
+        product.setQty(Integer.parseInt(resultSet.getString("Quantity")));
     }
 }
