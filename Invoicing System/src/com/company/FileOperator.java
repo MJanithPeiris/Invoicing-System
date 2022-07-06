@@ -16,11 +16,11 @@ public class FileOperator {
         writer.write(" \n\t\t ---ABC Company--- ");
         writer.write("\n\n\n Invoice Number : " + invoice.getInvoiceNumber() + "\n Date : " + invoice.getCurrentDate());
         writer.write("\n Check in Time : " + invoice.getCheckInTime() + "\n Check out Time : " + invoice.getCheckOutTime());
-        writer.write("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
+        writer.write("\n\n Product Name \t\t Quantity \tUnit Price(Rs.) \tTotal Price(Rs.) \n");
         for (int index = 0; index < invoice.getProducts().size(); index++) {
             writer.write("\n " + invoice.getProducts().get(index));
-            writer.write("\n " + invoice.getProductIDs().get(index) + "\t\t    " + invoice.getNumberOfUnits().get(index) + "\t\t    " + invoice.getUnitPrice().get(index));
-            writer.write("\n Discount per product \t\t\t     -" + invoice.getDiscountPerUnit().get(index));
+            writer.write("\n " + invoice.getProductIDs().get(index) + "\t\t    " + invoice.getNumberOfUnits().get(index) + "\t\t    " + invoice.getUnitPrice().get(index) + "\t\t    " + invoice.getTotalPricePerProduct().get(index));
+            writer.write("\n Discount per product \t\t\t\t\t\t     -" + invoice.getDiscountPerUnit().get(index));
         }
         writer.write("\n\n Sub Total      : Rs." + String.format("%.2f", invoice.getSubTotal()));
         writer.write("\n Total Discount : Rs." + String.format("%.2f", invoice.getTotalDiscount()));
