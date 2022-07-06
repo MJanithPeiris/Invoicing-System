@@ -16,6 +16,7 @@ public class FileOperator {
         writer.write(" \n\t\t ---ABC Company--- ");
         writer.write("\n\n\n Invoice Number : " + invoice.getInvoiceNumber() + "\n Date : " + invoice.getCurrentDate());
         writer.write("\n Check in Time : " + invoice.getCheckInTime() + "\n Check out Time : " + invoice.getCheckOutTime());
+        writer.write("\n Cashier ID : " + invoice.getCashierID());
         writer.write("\n\n Product Name \t\t Quantity \tUnit Price(Rs.) \tTotal Price(Rs.) \n");
         for (int index = 0; index < invoice.getProducts().size(); index++) {
             writer.write("\n " + invoice.getProducts().get(index));
