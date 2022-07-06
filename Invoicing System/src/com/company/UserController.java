@@ -38,13 +38,7 @@ public class UserController {
         ResultSet resultSet = statement.executeQuery(queryString);
 
         while (resultSet.next()) {
-            user.setUserID(resultSet.getString("User_ID"));
-            user.setName(resultSet.getString("Name"));
-            user.setUserName(resultSet.getString("User_Name"));
-            user.setPassword(resultSet.getString("Password"));
-            user.setContactNumber(resultSet.getString("Contact_Number"));
-            user.setEmail(resultSet.getString("Email"));
-
+            setData(user,resultSet);
             user.displayAllUsers();
         }
     }
@@ -61,12 +55,7 @@ public class UserController {
         ResultSet resultSet = statement.executeQuery(queryString);
 
         if (resultSet.next()) {
-            user.setUserID(resultSet.getString("User_ID"));
-            user.setName(resultSet.getString("Name"));
-            user.setUserName(resultSet.getString("User_Name"));
-            user.setPassword(resultSet.getString("Password"));
-            user.setContactNumber(resultSet.getString("Contact_Number"));
-            user.setEmail(resultSet.getString("Email"));
+            setData(user,resultSet);
             return true;
         }
         return false;
@@ -122,16 +111,21 @@ public class UserController {
         String queryString = "SELECT * FROM User_Details";
         ResultSet resultSet = statement.executeQuery(queryString);
 
-        if(resultSet.last()) {
-            user.setUserID(resultSet.getString("User_ID"));
-            user.setName(resultSet.getString("Name"));
-            user.setUserName(resultSet.getString("User_Name"));
-            user.setPassword(resultSet.getString("Password"));
-            user.setContactNumber(resultSet.getString("Contact_Number"));
-            user.setEmail(resultSet.getString("Email"));
-        }else{
-            return false;
+        if (resultSet.last()) {
+            setData(user,resultSet);
+            return true;
         }
-        return true;
+        return false;
     }
+
+
+    private static void setData(User user, ResultSet resultSet) throws SQLException {
+        user.setUserID(resultSet.getString("User_ID"));
+        user.setName(resultSet.getString("Name"));
+        user.setUserName(resultSet.getString("User_Name"));
+        user.setPassword(resultSet.getString("Password"));
+        user.setContactNumber(resultSet.getString("Contact_Number"));
+        user.setEmail(resultSet.getString("Email"));
+    }
+
 }
