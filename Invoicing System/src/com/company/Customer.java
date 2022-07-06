@@ -90,7 +90,11 @@ public class Customer {
     }
 
     public void displayCustomer(){
-        System.out.println("\n Customer ID : " + customerID + "\n Customer Name : " + customerName + "\n Email : " + email + "\n Address : " + address + "\n Contact Number : " + contactNumber + "\n Date of Birth : " + dob +"\n Gender : " + gender);
+        TableViewer tableViewer = new TableViewer();
+        tableViewer.setShowVerticalLines(true);
+        tableViewer.setHeaders("Customer ID", "Customer Name", "Email", "Address","Contact Number", "Date of Birth","Gender");
+        tableViewer.addRow(customerID, customerName, email,address,contactNumber,dob,gender);
+        tableViewer.print();
     }
 
 }
