@@ -23,6 +23,7 @@ public class Invoice {
     private String unitPriceList;
     private String discountPerUnitList;
     private String totalPricePerProductList;
+    private String cashierID;
 
     private ArrayList<String> productIDs;
     private ArrayList<String> products;
@@ -167,6 +168,10 @@ public class Invoice {
         this.balanceAmount = balanceAmount;
     }
 
+    public void setCashierID(String cashierID) {
+        this.cashierID = cashierID;
+    }
+
     public String getCurrentDate() {
         return currentDate;
     }
@@ -267,6 +272,10 @@ public class Invoice {
         return balanceAmount;
     }
 
+    public String getCashierID() {
+        return cashierID;
+    }
+
     public void displayBill(){
 
         System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.) \t Total Price(Rs.)\n");
@@ -340,6 +349,7 @@ public class Invoice {
 //
 //        System.out.print("\n\n Invoice Number : " + invoiceNumber + "\n Date : " + currentDate);
 //        System.out.print("\n Check in Time : " + checkInTime + "\n Check out Time : " + checkOutTime);
+//        System.out.print("\n Cashier ID : " + cashierID);
 //        System.out.print("\n\n Product Name \t\t Quantity \t Unit Price(Rs.)\n");
 //        for (int index = 0; index < pID.length; index++) {
 //            System.out.print("\n "+ p[index]);
@@ -361,8 +371,8 @@ public class Invoice {
 
         TableViewer tableViewer = new TableViewer();
         tableViewer.setShowVerticalLines(true);
-        tableViewer.setHeaders("Invoice Number", "Date", "Check in Time", "Check out Time","Product ID", "Product Name","Quantity","Unit Price(Rs.)","Total Price(Rs.)","Discount per product","Sub Total", "Total Discount","Total","Payment Method","Balance", "Customer ID","Customer Name","Customer Contact Number");
-        tableViewer.addRow(invoiceNumber, currentDate, checkInTime,checkOutTime,pIDs,ps,ns,us,ts,ds,String.format("%.2f", subTotal),String.format("%.2f", totalDiscount),String.format("%.2f", totalPrice),paymentMethod,String.format("%.2f", balanceAmount),customerID,customerName,customerContactNumber);
+        tableViewer.setHeaders("Invoice Number", "Date", "Check in Time", "Check out Time","Product ID", "Product Name","Quantity","Unit Price(Rs.)","Total Price(Rs.)","Discount per product","Sub Total", "Total Discount","Total","Payment Method","Balance", "Customer ID","Customer Name","Customer Contact Number", "Cashier ID");
+        tableViewer.addRow(invoiceNumber, currentDate, checkInTime,checkOutTime,pIDs,ps,ns,us,ts,ds,String.format("%.2f", subTotal),String.format("%.2f", totalDiscount),String.format("%.2f", totalPrice),paymentMethod,String.format("%.2f", balanceAmount),customerID,customerName,customerContactNumber,cashierID);
         tableViewer.print();
         System.out.println("\n");
 
