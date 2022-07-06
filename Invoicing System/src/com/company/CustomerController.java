@@ -20,9 +20,9 @@ public class CustomerController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return ("Data added successfully");
+            return ("Customer is added successfully");
         } else {
-            return ("Data added unsuccessfully");
+            return ("Customer is added unsuccessfully");
         }
     }
 
@@ -37,10 +37,14 @@ public class CustomerController {
         String queryString = "SELECT * FROM Customer_Details;";
         ResultSet resultSet = statement.executeQuery(queryString);
 
+        TableViewer tableViewer = new TableViewer();
+        customer.setHeader(tableViewer);
+
         while (resultSet.next()) {
             setData(customer, resultSet);
-            customer.displayAllCustomers();
+            customer.addRows(tableViewer);
         }
+        tableViewer.print();
     }
 
     // get a selected customer details
@@ -75,9 +79,9 @@ public class CustomerController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return (" Data updated successfully");
+            return (" Customer is updated successfully");
         } else {
-            return (" Data updated unsuccessfully");
+            return (" Customer is updated unsuccessfully");
         }
     }
 
@@ -94,9 +98,9 @@ public class CustomerController {
         int i = statement.executeUpdate(queryString);
 
         if (i != 0) {
-            return (" Data deleted successfully");
+            return (" Customer is deleted successfully");
         } else {
-            return (" Data deleted unsuccessfully");
+            return (" Customer is deleted unsuccessfully");
         }
     }
 
