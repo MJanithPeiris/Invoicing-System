@@ -14,7 +14,6 @@ public class CashierController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // insert query for database
         String queryString = "INSERT INTO Cashier_Details (Cashier_ID, Cashier_Name, User_Name, Password, Address, Contact_Number, Email) " +
                 "VALUES ('"+ cashier.getCashierID().toUpperCase()+"','"+ cashier.getCashierName().toUpperCase()+"','"+ cashier.getUserName()+"','"+ cashier.getPassword()+"','" + cashier.getAddress() +"','"+ cashier.getContactNumber()+"','"+ cashier.getEmail()+"');";
         int i = statement.executeUpdate(queryString);
@@ -26,7 +25,7 @@ public class CashierController {
         }
     }
 
-    // display all details of the products
+
     public static void selectAllCashiers(Cashier cashier) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -47,7 +46,7 @@ public class CashierController {
         tableViewer.print();
     }
 
-    // get a selected product details
+
     public static boolean selectCashier(Cashier cashier) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -73,7 +72,6 @@ public class CashierController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // update query for database
         String queryString = "UPDATE Cashier_Details SET Cashier_Name = '"+ cashier.getCashierName().toUpperCase()+"', User_Name = '"+ cashier.getUserName()+"', Password = '"+ cashier.getPassword()+"', Address = '"+ cashier.getAddress() + "', Contact_Number = '"+ cashier.getContactNumber()+"', Email = '"+ cashier.getEmail()+"' " +
                 "WHERE Cashier_ID = '" + cashier.getCashierID() + "';";
 
@@ -94,7 +92,6 @@ public class CashierController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // delete query for database
         String queryString = "DELETE FROM Cashier_Details WHERE Cashier_ID = '" + cashier.getCashierID().toUpperCase() + "' OR User_Name '"+ cashier.getUserName()+"';";
         int i = statement.executeUpdate(queryString);
 

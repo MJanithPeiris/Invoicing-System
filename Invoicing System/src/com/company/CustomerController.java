@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class CustomerController {
 
-    // add customer details to the customer details table
+
     public static String addCustomer(Customer customer) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -26,7 +26,7 @@ public class CustomerController {
         }
     }
 
-    // display all details of the customers
+
     public static void selectAllCustomers(Customer customer) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -47,7 +47,7 @@ public class CustomerController {
         tableViewer.print();
     }
 
-    // get a selected customer details
+
     public static boolean selectCustomer(Customer customer) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -73,7 +73,6 @@ public class CustomerController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // update query for database
         String queryString = "UPDATE Customer_Details SET Customer_Name = '"+ customer.getCustomerName().toUpperCase()+"', Email = '"+ customer.getEmail()+"', Address = '"+ customer.getAddress()+"', Contact_Number = '"+ customer.getContactNumber()+"', Date_of_Birth = '"+ customer.getDob()+"' , Gender = '"+ customer.getGender()+"'" +
                 "WHERE Customer_ID = '" + customer.getCustomerID().toUpperCase() + "';";
         int i = statement.executeUpdate(queryString);
@@ -93,7 +92,6 @@ public class CustomerController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // delete query for database
         String queryString = "DELETE FROM Customer_Details WHERE Customer_ID = '" + customer.getCustomerID().toUpperCase() + "' OR Contact_Number ='"+customer.getContactNumber()+"';";
         int i = statement.executeUpdate(queryString);
 

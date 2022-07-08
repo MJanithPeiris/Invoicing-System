@@ -7,7 +7,7 @@ import java.sql.Statement;
 
 public class ProductController {
 
-    // add details to the product details table
+
     public static String addProduct(Product product) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -15,7 +15,6 @@ public class ProductController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // insert query for database
         String queryString = "INSERT INTO Product_Details (Product_ID, Product_Name, Description, Purchase_Price, Selling_Price, Quantity) " +
                 "VALUES ('"+product.getProductID().toUpperCase()+"','"+product.getProductName().toUpperCase()+"','"+product.getDescription()+"','"+product.getPurchasePrice()+"','"+product.getSellingPrice()+"','"+product.getQty()+"');";
         int i = statement.executeUpdate(queryString);
@@ -27,7 +26,7 @@ public class ProductController {
         }
     }
 
-    // display all details of the products
+
     public static void selectAllProducts(Product product) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -48,7 +47,7 @@ public class ProductController {
         tableViewer.print();
     }
 
-    // get a selected product details
+
     public static boolean selectProduct(Product product) throws SQLException, ClassNotFoundException {
 
         DBConnector connector = new DBConnector();
@@ -74,7 +73,6 @@ public class ProductController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // update query for database
         String queryString = "UPDATE Product_Details SET Product_Name = '"+product.getProductName().toUpperCase()+"', Description = '"+product.getDescription()+"', Purchase_Price = '"+product.getPurchasePrice()+"', Selling_Price = '"+product.getSellingPrice()+"', Quantity = '"+product.getQty()+"' " +
                 "WHERE Product_ID = '" + product.getProductID().toUpperCase() + "';";
         int i = statement.executeUpdate(queryString);
@@ -94,7 +92,6 @@ public class ProductController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // delete query for database
         String queryString = "DELETE FROM Product_Details WHERE Product_ID = '" + product.getProductID().toUpperCase() + "' OR Product_Name LIKE '%"+product.getProductName().toUpperCase()+"%';";
         int i = statement.executeUpdate(queryString);
 

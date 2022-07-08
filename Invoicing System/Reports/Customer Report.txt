@@ -1,1 +1,2 @@
-
+   ID	     Operation 	    Date 	  Time 
+C-000001      Insert	 2022-07-08	22:10:27

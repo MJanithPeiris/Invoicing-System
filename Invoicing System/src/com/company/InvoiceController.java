@@ -14,7 +14,6 @@ public class InvoiceController {
         Connection connection;
         connection = connector.getDBConnection();
         Statement statement = connection.createStatement();
-        // insert query for database
         String queryString = "INSERT INTO Invoice_Details (Invoice_Number, Date, Check_In_Time, Check_Out_Time, ProductIDs, Products, Units_Per_Product, Unit_Price_Per_Product, Total_Price, Discount_Per_Product, Sub_Total, Total_Discount, Total, Payment_Method, Cash_Amount, Balance, Customer_ID, Customer_Name, Contact_Number, Cashier_ID) " +
                 "VALUES ('"+ invoice.getInvoiceNumber() +"','"+ invoice.getCurrentDate() +"','"+ invoice.getCheckInTime() +"','"+ invoice.getCheckOutTime() +"','"+ getProductIDList(invoice) +"','"+ getProductList(invoice) +"','"+ getUnitsPerProductList(invoice) +"','"+ getPricePerProductList(invoice) +"','"+ getTotalPricePerProductList(invoice) +"','"+ getDiscountPerProductList(invoice) +"','"+ invoice.getSubTotal() +"','"+ invoice.getTotalDiscount() +"','"+ invoice.getTotalPrice() +"','"+ invoice.getPaymentMethod() +"','"+ invoice.getCashAmount() +"','"+ invoice.getBalanceAmount() +"','"+ invoice.getCustomerID() +"','"+ invoice.getCustomerName() +"','"+ invoice.getCustomerContactNumber() +"','"+ invoice.getCashierID() +"');";
         int i = statement.executeUpdate(queryString);
@@ -128,6 +127,7 @@ public class InvoiceController {
     }
 
 
+    // convert array lists into strings
     private static String getProductIDList(Invoice invoice){
         String productIDs = "";
 

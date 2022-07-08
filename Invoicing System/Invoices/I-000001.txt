@@ -1,0 +1,30 @@
+ 
+				 ---ABC Company--- 
+
+
+ Invoice Number : I-000001
+ Date : 2022-07-08
+ Check in Time : 22:10:35
+ Check out Time : 22:11:15
+ Cashier ID : U-000001
+
+ Product Name 		 Quantity 	Unit Price(Rs.) 	Total Price(Rs.) 
+
+ TIKIRI MAARI
+ P-000002		    5		    105.0		    525.0
+ Discount per product 						     -0.0
+
+ Sub Total      : Rs.525.00
+ Total Discount : Rs.0.00
+
+ Total : Rs.525.00
+ Cash : Rs.525.0
+ Change : Rs.0.00
+
+ Customer ID : C-000001
+ Customer Name : JANITH PEIRIS
+ Customer Contact Number : 0718153369
+
+
+			   Thank you for Shopping with us 
+				   Come again!!
