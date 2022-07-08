@@ -13,7 +13,7 @@ public class FileOperator {
     public static void printBill(Invoice invoice) throws IOException {
         File temp = Paths.get("Invoices").toAbsolutePath().normalize().toFile();
         FileWriter writer = new FileWriter(temp + "\\" + invoice.getInvoiceNumber() + ".txt");
-        writer.write(" \n\t\t ---ABC Company--- ");
+        writer.write(" \n\t\t\t\t ---ABC Company--- ");
         writer.write("\n\n\n Invoice Number : " + invoice.getInvoiceNumber() + "\n Date : " + invoice.getCurrentDate());
         writer.write("\n Check in Time : " + invoice.getCheckInTime() + "\n Check out Time : " + invoice.getCheckOutTime());
         writer.write("\n Cashier ID : " + invoice.getCashierID());
@@ -35,7 +35,7 @@ public class FileOperator {
         writer.write("\n\n Customer ID : " + invoice.getCustomerID());
         writer.write("\n Customer Name : " + invoice.getCustomerName());
         writer.write("\n Customer Contact Number : " + invoice.getCustomerContactNumber());
-        writer.write("\n\n\n\t   Thank you for Shopping with us \n\t\t   Come again!!");
+        writer.write("\n\n\n\t\t\t   Thank you for Shopping with us \n\t\t\t\t   Come again!!");
         writer.close();
         System.out.println("Bill has been printed successfully!!.");
     }
