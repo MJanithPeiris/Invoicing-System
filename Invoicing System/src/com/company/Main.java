@@ -77,24 +77,24 @@ public class Main {
         System.out.println("\n Sign in to the system");
         while (isRunning) {
             try {
-                User user = new User();
+                Cashier cashier = new Cashier();
                 // get user credentials to start the program
                 while (true) {
                     System.out.print(" Enter User Name : ");
                     userName = userOption.nextLine();
-                    user.setUserName(userName);
-                    if (UserController.selectUser(user)) {
+                    cashier.setUserName(userName);
+                    if (CashierController.selectCashier(cashier)) {
                         System.out.print(" Enter Password : ");
                         password = userOption.nextLine();
-                        if (Objects.equals(user.getPassword(), password))
+                        if (Objects.equals(cashier.getPassword(), password))
                             break;
                         else
                             System.out.println(" Wrong password entered!! Try again...");
                     } else
                         System.out.println(" Wrong user name entered!! Try again...");
-                    user.setUserID("");
-                    user.setUserName("");
-                    user.setContactNumber("");
+                    cashier.setCashierID("");
+                    cashier.setUserName("");
+                    cashier.setContactNumber("");
                 }
                 System.out.print("\n Logging.");
                 for (int i = 0; i < 10; i++) {
@@ -107,7 +107,7 @@ public class Main {
                 // main program
                 while (isRunning) {
                     System.out.print("\n ---Welcome to Invoice System---");
-                    System.out.println("\n\n 1. Manage Products\n 2. Manage Customers\n 3. Invoice Generation\n 4. Admin Tasks\n 5. Manage Users\n 0. Exit");
+                    System.out.println("\n\n 1. Manage Products\n 2. Manage Customers\n 3. Manage Invoices\n 4. Admin Tasks\n 5. Manage Cashiers\n 0. Exit");
                     System.out.print(" Your Option : ");
                     userInput = Integer.parseInt(userOption.nextLine());
 
@@ -121,16 +121,19 @@ public class Main {
                             manageCustomers(userOption);
                             break;
                         case 3:
-                            System.out.println("\n ---Invoice Generation---");
-                            generateInvoice(userOption, user.getUserID());
+                            System.out.println("\n ---Manage Invoices---");
+                            manageInvoices(userOption, cashier.getCashierID());
                             break;
                         case 4:
                             System.out.println("\n ---Admin Tasks---");
-                            adminTask(userOption);
+                            if(Objects.equals(cashier.getUserName(), "Admin"))
+                                adminTask(userOption);
+                            else
+                                System.out.println(" You are not an authorised person!!");
                             break;
                         case 5:
-                            System.out.println("\n ---Manage Users---");
-                            manageUsers(userOption);
+                            System.out.println("\n ---Manage Cashiers---");
+                            manageCashiers(userOption);
                             break;
                         case 0:
 
@@ -163,7 +166,6 @@ public class Main {
 
     private static void manageProducts(Scanner userOption) throws SQLException, ClassNotFoundException, IOException {
 
-        int userInput;
         String productDetails;
         String productID;
         String productName;
@@ -175,9 +177,8 @@ public class Main {
 
         System.out.println(" 1. Add a Product \n 2. Update Product Details \n 3. Remove a Product \n 4. Search a Product \n 5. Display all Products");
         System.out.print(" Your Option : ");
-        userInput = Integer.parseInt(userOption.nextLine());
 
-        switch (userInput) {
+        switch (Integer.parseInt(userOption.nextLine())) {
             case 1:
                 product = new Product();
 
@@ -301,7 +302,6 @@ public class Main {
 
     private static void manageCustomers(Scanner userOption) throws SQLException, ClassNotFoundException, IOException {
 
-        int userInput;
         String customerDetails;
         String customerID;
         String customerName;
@@ -312,13 +312,10 @@ public class Main {
         String gender;
         Customer customer;
 
-
         System.out.println(" 1. Add a Customer \n 2. Update Customer Details \n 3. Remove a Customer \n 4. Search a Customer \n 5. Display all Customers");
         System.out.print(" Your Option : ");
-        userInput = Integer.parseInt(userOption.nextLine());
-        userOption.nextLine();
 
-        switch (userInput) {
+        switch (Integer.parseInt(userOption.nextLine())) {
             case 1:
                 customer = new Customer();
 
@@ -446,193 +443,218 @@ public class Main {
     }
 
 
-    private static void generateInvoice(Scanner userOption, String userID) throws SQLException, ClassNotFoundException, IOException {
+    private static void manageInvoices(Scanner userOption, String userID) throws SQLException, ClassNotFoundException, IOException {
 
-        String invoiceNumber;
-        String customerDetails;
-        String productDetails;
-        double discountPercentage;
-        double subTotal = 0;
-        double totalDiscount = 0;
-        double cashAmount;
-        int buyingQty;
-        int userInput;
-
-        ArrayList<String> productIDs = new ArrayList<>();
-        ArrayList<String> products = new ArrayList<>();
-        ArrayList<Integer> numberOfUnits = new ArrayList<>();
-        ArrayList<Double> unitPrice = new ArrayList<>();
-        ArrayList<Double> discountPerUnit = new ArrayList<>();
-        ArrayList<Double> totalPricePerProduct = new ArrayList<>();
-
-        Customer customer = new Customer();
-        Product product = new Product();
         Invoice invoice = new Invoice();
 
-        invoiceNumber = getNextID('I', InvoiceController.selectLastInvoice(invoice), invoice.getInvoiceNumber());
-        invoice.setInvoiceNumber(invoiceNumber);
+        System.out.println(" 1. Generate an Invoice \n 2. Search an Invoice \n 3. View all Invoices");
+        System.out.print(" Your Option : ");
 
-        invoice.setCurrentDate(getDate());
-        invoice.setCheckInTime(getTime());
+        switch (Integer.parseInt(userOption.nextLine())){
+            case 1:
+                String invoiceNumber;
+                String customerDetails;
+                String productDetails;
+                double discountPercentage;
+                double subTotal = 0;
+                double totalDiscount = 0;
+                double cashAmount;
+                int buyingQty;
+                int userInput;
 
+                ArrayList<String> productIDs = new ArrayList<>();
+                ArrayList<String> products = new ArrayList<>();
+                ArrayList<Integer> numberOfUnits = new ArrayList<>();
+                ArrayList<Double> unitPrice = new ArrayList<>();
+                ArrayList<Double> discountPerUnit = new ArrayList<>();
+                ArrayList<Double> totalPricePerProduct = new ArrayList<>();
 
-        while (true) {
-            System.out.print(" Enter customer ID or contact number : ");
-            customerDetails = userOption.nextLine();
-            customer.setCustomerID(customerDetails);
-            customer.setContactNumber(customerDetails);
-            if (CustomerController.selectCustomer(customer)) {
-                customer.displayCustomer();
-                invoice.setCustomerID(customer.getCustomerID());
-                invoice.setCustomerName(customer.getCustomerName());
-                invoice.setCustomerContactNumber(customer.getContactNumber());
-                break;
-            } else
-                System.out.println(" Wrong Customer ID or Contact Number!! Try again...");
-        }
+                Customer customer = new Customer();
+                Product product = new Product();
 
+                invoiceNumber = getNextID('I', InvoiceController.selectLastInvoice(invoice), invoice.getInvoiceNumber());
+                invoice.setInvoiceNumber(invoiceNumber);
 
-        while (true) {
-            System.out.print("\n Enter the Product ID or Name : ");
-            productDetails = userOption.nextLine();
-            product.setProductID(productDetails);
-            product.setProductName(productDetails);
-            if (ProductController.selectProduct(product)) {
-                System.out.print(" Number of Units : ");
-                buyingQty = Integer.parseInt(userOption.nextLine());
+                invoice.setCurrentDate(getDate());
+                invoice.setCheckInTime(getTime());
 
-                if (product.getQty() - buyingQty > 0) { // check sufficient stock is available to buy
-                    System.out.print(" Discount Percentage : ");
-                    discountPercentage = Double.parseDouble(userOption.nextLine());
-
-                    productIDs.add(product.getProductID());
-                    products.add(product.getProductName());
-                    unitPrice.add(product.getSellingPrice());
-                    discountPerUnit.add((product.getSellingPrice() * discountPercentage) / 100);
-                    numberOfUnits.add(buyingQty);
-                    totalPricePerProduct.add(product.getSellingPrice() * buyingQty);
-
-                    product.setQty(product.getQty() - buyingQty);
-                    ProductController.updateProduct(product);
-
-                    totalDiscount += (product.getSellingPrice() * discountPercentage) * buyingQty / 100;
-                    subTotal += product.getSellingPrice() * buyingQty;
-                } else {
-                    System.out.println(product.getQty() + " only left in the stock!!");
+                while (true) {
+                    System.out.print(" Enter customer ID or contact number : ");
+                    customerDetails = userOption.nextLine();
+                    customer.setCustomerID(customerDetails);
+                    customer.setContactNumber(customerDetails);
+                    if (CustomerController.selectCustomer(customer)) {
+                        customer.displayCustomer();
+                        invoice.setCustomerID(customer.getCustomerID());
+                        invoice.setCustomerName(customer.getCustomerName());
+                        invoice.setCustomerContactNumber(customer.getContactNumber());
+                        break;
+                    } else
+                        System.out.println(" Wrong Customer ID or Contact Number!! Try again...");
                 }
 
-            } else {
-                System.out.println(" Wrong product ID or Name!! Try again...");
-                continue;
-            }
+                while (true) {
+                    System.out.print("\n Enter the Product ID or Name : ");
+                    productDetails = userOption.nextLine();
+                    product.setProductID(productDetails);
+                    product.setProductName(productDetails);
+                    if (ProductController.selectProduct(product)) {
+                        System.out.print(" Number of Units : ");
+                        buyingQty = Integer.parseInt(userOption.nextLine());
 
-            System.out.print(" Do you want to add more items?\n 1. Yes\n 2. No\n Your Option : ");
-            userInput = Integer.parseInt(userOption.nextLine());
-            if (userInput != 1)
+                        if (product.getQty() - buyingQty > 0) { // check sufficient stock is available to buy
+                            System.out.print(" Discount Percentage : ");
+                            discountPercentage = Double.parseDouble(userOption.nextLine());
+
+                            productIDs.add(product.getProductID());
+                            products.add(product.getProductName());
+                            unitPrice.add(product.getSellingPrice());
+                            discountPerUnit.add((product.getSellingPrice() * discountPercentage) / 100);
+                            numberOfUnits.add(buyingQty);
+                            totalPricePerProduct.add(product.getSellingPrice() * buyingQty);
+
+                            product.setQty(product.getQty() - buyingQty);
+                            ProductController.updateProduct(product);
+
+                            totalDiscount += (product.getSellingPrice() * discountPercentage) * buyingQty / 100;
+                            subTotal += product.getSellingPrice() * buyingQty;
+                        } else {
+                            System.out.println(product.getQty() + " only left in the stock!!");
+                        }
+
+                    } else {
+                        System.out.println(" Wrong product ID or Name!! Try again...");
+                        continue;
+                    }
+
+                    System.out.print(" Do you want to add more items?\n 1. Yes\n 2. No\n Your Option : ");
+                    userInput = Integer.parseInt(userOption.nextLine());
+                    if (userInput != 1)
+                        break;
+                }
+
+                invoice.setProductIDs(productIDs);
+                invoice.setProducts(products);
+                invoice.setNumberOfUnits(numberOfUnits);
+                invoice.setUnitPrice(unitPrice);
+                invoice.setDiscountPerUnit(discountPerUnit);
+                invoice.setTotalPricePerProduct(totalPricePerProduct);
+                invoice.setSubTotal(subTotal);
+                invoice.setTotalDiscount(totalDiscount);
+                invoice.setTotalPrice(subTotal - totalDiscount);
+                invoice.setCashierID(userID);
+
+                invoice.displayBill();
+
+                System.out.print("\n\n Enter your Payment Method\n 1. Cash \n 2. Card \n Your Option : ");
+                userInput = Integer.parseInt(userOption.nextLine());
+
+                if (userInput == 1) {
+                    invoice.setPaymentMethod("Cash");
+                    System.out.print(" Enter the cash amount :");
+                    cashAmount = Double.parseDouble(userOption.nextLine());
+                    invoice.setCashAmount(cashAmount);
+                    invoice.setBalanceAmount(cashAmount - (subTotal - totalDiscount));
+                    System.out.println(" Balance : " + String.format("%.2f", invoice.getBalanceAmount()));
+                } else {
+                    invoice.setPaymentMethod("Card");
+                    invoice.setCashAmount(0.0);
+                    invoice.setBalanceAmount(0.0);
+                }
+
+                invoice.setCheckOutTime(getTime());
+
+                System.out.println(InvoiceController.addInvoice(invoice));
+                FileOperator.writeFile("Invoice Report", invoice.getInvoiceNumber(), "Insert", invoice.getCurrentDate(), invoice.getCheckInTime(), FileOperator.readFile("Invoice Report"));
+
+                FileOperator.printBill(invoice);
                 break;
+            case 2:
+                System.out.println(" ---Search for an Invoices---");
+                while (true) {
+                    System.out.print(" Enter Invoice Number : ");
+                    invoice.setInvoiceNumber(userOption.nextLine());
+                    if (InvoiceController.selectInvoice(invoice))
+                        break;
+                    else
+                        System.out.println(" Wrong Invoice id has been entered!! Try again...");
+                }
+                invoice.displayInvoice();
+                break;
+            case 3:
+                System.out.println(" ---View all Invoices---");
+                invoice = new Invoice();
+                InvoiceController.selectAllInvoices(invoice, 0, "None", "None");
+                break;
+            default:
+                System.out.println(" Invalid option entered! Try again");
         }
-
-        invoice.setProductIDs(productIDs);
-        invoice.setProducts(products);
-        invoice.setNumberOfUnits(numberOfUnits);
-        invoice.setUnitPrice(unitPrice);
-        invoice.setDiscountPerUnit(discountPerUnit);
-        invoice.setTotalPricePerProduct(totalPricePerProduct);
-        invoice.setSubTotal(subTotal);
-        invoice.setTotalDiscount(totalDiscount);
-        invoice.setTotalPrice(subTotal - totalDiscount);
-        invoice.setCashierID(userID);
-
-        invoice.displayBill();
-
-        System.out.print("\n\n Enter your Payment Method\n 1. Cash \n 2. Card \n Your Option : ");
-        userInput = Integer.parseInt(userOption.nextLine());
-
-        if (userInput == 1) {
-            invoice.setPaymentMethod("Cash");
-            System.out.print(" Enter the cash amount :");
-            cashAmount = Double.parseDouble(userOption.nextLine());
-            invoice.setCashAmount(cashAmount);
-            invoice.setBalanceAmount(cashAmount - (subTotal - totalDiscount));
-            System.out.println(" Balance : " + String.format("%.2f", invoice.getBalanceAmount()));
-        } else {
-            invoice.setPaymentMethod("Card");
-            invoice.setCashAmount(0.0);
-            invoice.setBalanceAmount(0.0);
-        }
-
-        invoice.setCheckOutTime(getTime());
-
-
-        System.out.println(InvoiceController.addInvoice(invoice));
-        FileOperator.writeFile("Invoice Report", invoice.getInvoiceNumber(), "Insert", invoice.getCurrentDate(), invoice.getCheckInTime(), FileOperator.readFile("Invoice Report"));
-
-        FileOperator.printBill(invoice);
     }
 
 
-    private static void manageUsers(Scanner userOption) throws SQLException, ClassNotFoundException, IOException {
-        int userInput;
+    private static void manageCashiers(Scanner userOption) throws SQLException, ClassNotFoundException, IOException {
+
         String userDetails;
         String userID;
         String name;
         String userName;
         String password;
         String confirmPassword;
+        String address;
         String contactNumber;
         String email;
 
-        User user;
+        Cashier cashier;
 
-        System.out.println(" 1. Add a User\n 2. Reset User Password\n 3. Update User Details\n 4. Remove a User\n 5. Search a User\n 6. Display all Users");
+        System.out.println(" 1. Add a Cashier\n 2. Reset Cashier Password\n 3. Update Cashier Details\n 4. Remove a Cashier\n 5. Search a Cashier\n 6. Display all Cashiers");
         System.out.print(" Your Option : ");
-        userInput = Integer.parseInt(userOption.nextLine());
-        userOption.nextLine();
 
-        switch (userInput) {
+        switch (Integer.parseInt(userOption.nextLine())) {
             case 1:
-                user = new User();
+                cashier = new Cashier();
 
-                System.out.println(" ---Add a User---");
-                userID = getNextID('U', UserController.selectLastUser(user), user.getUserID());
-                System.out.println(" Enter User ID : " + userID);
-                user.setUserID(userID);
-                System.out.print(" Enter Name : ");
-                user.setName(userOption.nextLine());
+                System.out.println(" ---Add a Cashier---");
+                userID = getNextID('U', CashierController.selectLastCashier(cashier), cashier.getCashierID());
+                System.out.println(" Enter Cashier ID : " + userID);
+                cashier.setCashierID(userID);
+                System.out.print(" Enter Cashier Name : ");
+                cashier.setCashierName(userOption.nextLine());
                 System.out.print(" Enter User Name : ");
-                user.setUserName(userOption.nextLine());
+                cashier.setUserName(userOption.nextLine());
                 do {
                     System.out.print(" Enter Password : ");
                     password = userOption.nextLine();
                     System.out.print(" Enter Confirm Password : ");
                     confirmPassword = userOption.nextLine();
                 } while (!Objects.equals(password, confirmPassword));
-                user.setPassword(password);
+                cashier.setPassword(password);
+                System.out.print(" Enter Address : ");
+                cashier.setAddress(userOption.nextLine());
                 System.out.print(" Enter Contact Number : ");
-                user.setContactNumber(userOption.nextLine());
+                cashier.setContactNumber(userOption.nextLine());
                 System.out.print(" Enter Email : ");
-                user.setEmail(userOption.nextLine());
+                cashier.setEmail(userOption.nextLine());
 
 
-                if (getConfirmation(userOption,"add")) {
-                    System.out.println(UserController.addUser(user));
-                    FileOperator.writeFile("User Report", user.getUserID(), "Insert", getDate(), getTime(), FileOperator.readFile("User Report"));
+                if (getConfirmation(userOption, "add")) {
+                    System.out.println(CashierController.addCashier(cashier));
+                    FileOperator.writeFile("Cashier Report", cashier.getCashierID(), "Insert", getDate(), getTime(), FileOperator.readFile("Cashier Report"));
                 }
                 break;
             case 2:
-                System.out.println(" ---Reset User Password---");
-                user = new User();
+                System.out.println(" ---Reset Cashier Password---");
+                cashier = new Cashier();
                 while (true) {
-                    System.out.print(" Enter User ID or Contact Number : ");
+                    System.out.print(" Enter Cashier ID or Contact Number : ");
                     userDetails = userOption.nextLine();
-                    user.setUserID(userDetails);
-                    user.setContactNumber(userDetails);
-                    if (UserController.selectUser(user))
+                    cashier.setCashierID(userDetails);
+                    cashier.setContactNumber(userDetails);
+                    if (CashierController.selectCashier(cashier))
                         break;
                     else
-                        System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
+                        System.out.println(" Wrong Cashier ID or Contact Number entered!! Try again...");
                 }
-                user.displayUser();
+                cashier.displayCashier();
 
                 while (true) {
                     System.out.print(" Enter New Password : ");
@@ -644,96 +666,101 @@ public class Main {
                     else
                         System.out.println(" Password and Confirm password didn't match!! Try again..,");
                 }
-                user.setPassword(password);
+                cashier.setPassword(password);
 
-                if (getConfirmation(userOption,"reset the password")) {
-                    System.out.println(UserController.updateUser(user));
-                    FileOperator.writeFile("User Report", user.getUserID(), "Reset", getDate(), getTime(), FileOperator.readFile("User Report"));
+                if (getConfirmation(userOption, "reset the password")) {
+                    System.out.println(CashierController.updateCashier(cashier));
+                    FileOperator.writeFile("Cashier Report", cashier.getCashierID(), "Reset", getDate(), getTime(), FileOperator.readFile("Cashier Report"));
                 }
                 break;
             case 3:
-                System.out.println(" ---Update User Details---");
+                System.out.println(" ---Update Cashier Details---");
 
-                user = new User();
+                cashier = new Cashier();
                 while (true) {
-                    System.out.print(" Enter User ID or Contact Number : ");
+                    System.out.print(" Enter Cashier ID or Contact Number : ");
                     userDetails = userOption.nextLine();
-                    user.setUserID(userDetails);
-                    user.setContactNumber(userDetails);
-                    if (UserController.selectUser(user))
+                    cashier.setCashierID(userDetails);
+                    cashier.setContactNumber(userDetails);
+                    if (CashierController.selectCashier(cashier))
                         break;
                     else
-                        System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
+                        System.out.println(" Wrong Cashier ID or Contact Number entered!! Try again...");
                 }
-                user.displayUser();
+                cashier.displayCashier();
 
                 System.out.print("\n Enter updated Name : ");
                 name = userOption.nextLine();
                 if (!Objects.equals(name, ""))
-                    user.setName(name);
+                    cashier.setCashierName(name);
 
                 System.out.print(" Enter updated User Name : ");
                 userName = userOption.nextLine();
                 if (!Objects.equals(userName, ""))
-                    user.setUserName(userName);
+                    cashier.setUserName(userName);
+
+                System.out.print(" Enter updated Address : ");
+                address = userOption.nextLine();
+                if (!Objects.equals(address, ""))
+                    cashier.setAddress(address);
 
                 System.out.print(" Enter updated Contact Number : ");
                 contactNumber = userOption.nextLine();
                 if (!Objects.equals(contactNumber, ""))
-                    user.setContactNumber(contactNumber);
+                    cashier.setContactNumber(contactNumber);
 
                 System.out.print(" Enter updated Email : ");
                 email = userOption.nextLine();
                 if (!Objects.equals(email, ""))
-                    user.setEmail(email);
+                    cashier.setEmail(email);
 
-                if (getConfirmation(userOption,"update")) {
-                    System.out.println(UserController.updateUser(user));
-                    FileOperator.writeFile("User Report", user.getUserID(), "Update", getDate(), getTime(), FileOperator.readFile("User Report"));
+                if (getConfirmation(userOption, "update")) {
+                    System.out.println(CashierController.updateCashier(cashier));
+                    FileOperator.writeFile("Cashier Report", cashier.getCashierID(), "Update", getDate(), getTime(), FileOperator.readFile("Cashier Report"));
                 }
                 break;
             case 4:
-                System.out.println(" ---Remove a User---");
-                user = new User();
+                System.out.println(" ---Remove a Cashier---");
+                cashier = new Cashier();
                 while (true) {
-                    System.out.print(" Enter User ID or User Name : ");
+                    System.out.print(" Enter Cashier ID or User Name : ");
                     userDetails = userOption.nextLine();
-                    user.setUserID(userDetails);
-                    user.setUserName(userDetails);
-                    if (UserController.selectUser(user))
+                    cashier.setCashierID(userDetails);
+                    cashier.setUserName(userDetails);
+                    if (CashierController.selectCashier(cashier))
                         break;
                     else
-                        System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
+                        System.out.println(" Wrong Cashier ID or Contact Number entered!! Try again...");
                 }
-                user.displayUser();
+                cashier.displayCashier();
 
 
-                if (getConfirmation(userOption,"delete")) {
-                    System.out.println(UserController.deleteUser(user));
-                    FileOperator.writeFile("User Report", user.getUserID(), "Delete", getDate(), getTime(), FileOperator.readFile("User Report"));
+                if (getConfirmation(userOption, "delete")) {
+                    System.out.println(CashierController.deleteCashier(cashier));
+                    FileOperator.writeFile("Cashier Report", cashier.getCashierID(), "Delete", getDate(), getTime(), FileOperator.readFile("Cashier Report"));
                 }
                 break;
             case 5:
-                System.out.println(" ---Search a User---");
-                user = new User();
+                System.out.println(" ---Search a Cashier---");
+                cashier = new Cashier();
 
                 while (true) {
-                    System.out.print(" Enter User ID or User Name or Contact Number : ");
+                    System.out.print(" Enter Cashier ID or User Name or Contact Number : ");
                     userDetails = userOption.nextLine();
-                    user.setUserID(userDetails);
-                    user.setUserName(userDetails);
-                    user.setContactNumber(userDetails);
-                    if (UserController.selectUser(user))
+                    cashier.setCashierID(userDetails);
+                    cashier.setUserName(userDetails);
+                    cashier.setContactNumber(userDetails);
+                    if (CashierController.selectCashier(cashier))
                         break;
                     else
-                        System.out.println(" Wrong Customer ID or Contact Number entered!! Try again...");
+                        System.out.println(" Wrong Cashier ID or Contact Number entered!! Try again...");
                 }
-                user.displayUser();
+                cashier.displayCashier();
                 break;
             case 6:
-                System.out.println(" ---Display all Users---");
-                user = new User();
-                UserController.selectAllUsers(user);
+                System.out.println(" ---Display all Cashiers---");
+                cashier = new Cashier();
+                CashierController.selectAllCashiers(cashier);
                 break;
             default:
                 System.out.println(" Invalid option entered! Try again");
@@ -743,25 +770,26 @@ public class Main {
 
 
     private static void adminTask(Scanner userOption) throws SQLException, ClassNotFoundException, FileNotFoundException {
-        int userInput;
+
         Product product;
         Customer customer;
         Invoice invoice;
+        Cashier cashier;
 
         System.out.print("""
                 1. View all the generated invoices for a particular time duration.
                 2. View all the generated invoices for a particular customer.
-                3. View all Invoices.
-                4. Search for an Invoice
-                5. Check Product Report.
-                6. Check Customer Report.
-                7. Check Invoice Report.
-                8. Check last insert Product details.
-                9. Check last insert Customer details.
-                10. Check last insert Invoice details.
+                3. Check Product Report.
+                4. Check Customer Report.
+                5. Check Invoice Report.
+                6. Check Cashier Report.
+                7. Check last insert Product details.
+                8. Check last insert Customer details.
+                9. Check last insert Invoice details.
+                10. Check last insert Cashier details.
                 Your option : """);
-        userInput = Integer.parseInt(userOption.nextLine());
-        switch (userInput) {
+
+        switch (Integer.parseInt(userOption.nextLine())) {
             case 1:
                 System.out.println(" ---View all the generated invoices for a particular time duration---");
                 invoice = new Invoice();
@@ -781,47 +809,44 @@ public class Main {
                 InvoiceController.selectAllInvoices(invoice, 2, "", "");
                 break;
             case 3:
-                System.out.println(" ---View all Invoices---");
-                invoice = new Invoice();
-                InvoiceController.selectAllInvoices(invoice, 0, "None", "None");
-                break;
-            case 4:
-                System.out.println(" ---Search for an Invoices---");
-                invoice = new Invoice();
-                if (InvoiceController.selectInvoice(invoice))
-                    invoice.displayAllInvoices();
-                else
-                    System.out.println(" Wrong invoice id has been entered!! Try again...");
-                break;
-            case 5:
                 System.out.println(" ---Product Report---\n");
                 System.out.println(FileOperator.readFile("Product Report"));
                 break;
-            case 6:
+            case 4:
                 System.out.println(" ---Customer Report---\n");
                 System.out.println(FileOperator.readFile("Customer Report"));
                 break;
-            case 7:
+            case 5:
                 System.out.println(" ---Invoice Report---\n");
                 System.out.println(FileOperator.readFile("Invoice Report"));
                 break;
-            case 8:
+            case 6:
+                System.out.println(" ---Cashier Report---\n");
+                System.out.println(FileOperator.readFile("Cashier Report"));
+                break;
+            case 7:
                 System.out.println(" ---Check last insert Product details---");
                 product = new Product();
                 ProductController.selectLastProduct(product);
                 product.displayProduct();
                 break;
-            case 9:
+            case 8:
                 System.out.println(" ---Check last insert Customer details---");
                 customer = new Customer();
                 CustomerController.selectLastCustomer(customer);
                 customer.displayCustomer();
                 break;
-            case 10:
+            case 9:
                 System.out.println(" ---Check last insert Invoice details---");
                 invoice = new Invoice();
                 InvoiceController.selectLastInvoice(invoice);
-                invoice.displayAllInvoices();
+                invoice.displayInvoice();
+                break;
+            case 10:
+                System.out.println(" ---Check last insert Cashier details---");
+                cashier = new Cashier();
+                CashierController.selectLastCashier(cashier);
+                cashier.displayCashier();
                 break;
             default:
                 System.out.println(" Invalid option entered! Try again");
