@@ -1,38 +1,41 @@
 package com.company;
 
-public class User {
+public class Cashier {
 
-    private String userID;
-    private String name;
+    private String cashierID;
+    private String cashierName;
     private String userName;
     private String password;
+    private String address;
     private String contactNumber;
     private String email;
 
-    public User() {
-        this.userID = "";
-        this.name = "";
+    public Cashier() {
+        this.cashierID = "";
+        this.cashierName = "";
         this.userName = "";
         this.password = "";
+        this.address = "";
         this.contactNumber = "";
         this.email = "";
     }
 
-    public User(String userID, String name, String userName, String password, String contactNumber, String email) {
-        this.userID = userID;
-        this.name = name;
+    public Cashier(String cashierID, String cashierName, String userName, String password, String address, String contactNumber, String email) {
+        this.cashierID = cashierID;
+        this.cashierName = cashierName;
         this.userName = userName;
         this.password = password;
+        this.address = address;
         this.contactNumber = contactNumber;
         this.email = email;
     }
 
-    public void setUserID(String userID) {
-        this.userID = userID;
+    public void setCashierID(String cashierID) {
+        this.cashierID = cashierID;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setCashierName(String cashierName) {
+        this.cashierName = cashierName;
     }
 
     public void setUserName(String userName) {
@@ -43,6 +46,10 @@ public class User {
         this.password = password;
     }
 
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
@@ -51,12 +58,12 @@ public class User {
         this.email = email;
     }
 
-    public String getUserID() {
-        return userID;
+    public String getCashierID() {
+        return cashierID;
     }
 
-    public String getName() {
-        return name;
+    public String getCashierName() {
+        return cashierName;
     }
 
     public String getUserName() {
@@ -65,6 +72,10 @@ public class User {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getAddress() {
+        return address;
     }
 
     public String getContactNumber() {
@@ -77,18 +88,18 @@ public class User {
 
     public void setHeader(TableViewer tableViewer) {
         tableViewer.setShowVerticalLines(true);
-        tableViewer.setHeaders("User ID", "Name", "User Name", "Contact Number", "Email");
+        tableViewer.setHeaders("Cashier ID", "Cashier Name", "User Name", "Address", "Contact Number", "Email");
     }
 
     public void addRows(TableViewer tableViewer) {
-        tableViewer.addRow(userID, name, userName, contactNumber, email);
+        tableViewer.addRow(cashierID, cashierName, userName, address, contactNumber, email);
     }
 
-    public void displayUser() {
+    public void displayCashier() {
         TableViewer tableViewer = new TableViewer();
         tableViewer.setShowVerticalLines(true);
-        tableViewer.setHeaders("User ID", "Name", "User Name", "Contact Number", "Email");
-        tableViewer.addRow(userID, name, userName, contactNumber, email);
+        tableViewer.setHeaders("Cashier ID", "Cashier Name", "User Name", "Address", "Contact Number", "Email");
+        tableViewer.addRow(cashierID, cashierName, userName,address, contactNumber, email);
         tableViewer.print();
     }
 }
