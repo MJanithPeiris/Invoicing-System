@@ -68,6 +68,10 @@ public class Invoice {
         this.totalPricePerProduct = totalPricePerProduct;
     }
 
+    public void setInvoiceNumber(String invoiceNumber) {
+        this.invoiceNumber = invoiceNumber;
+    }
+
     public void setCurrentDate(String currentDate) {
         this.currentDate = currentDate;
     }
@@ -80,10 +84,6 @@ public class Invoice {
         this.checkOutTime = checkOutTime;
     }
 
-    public void setInvoiceNumber(String invoiceNumber) {
-        this.invoiceNumber = invoiceNumber;
-    }
-
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
     }
@@ -94,6 +94,14 @@ public class Invoice {
 
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public void setCashAmount(double cashAmount) {
+        this.cashAmount = cashAmount;
+    }
+
+    public void setBalanceAmount(double balanceAmount) {
+        this.balanceAmount = balanceAmount;
     }
 
     public void setPaymentMethod(String paymentMethod) {
@@ -136,6 +144,10 @@ public class Invoice {
         this.totalPricePerProductList = totalPricePerProductList;
     }
 
+    public void setCashierID(String cashierID) {
+        this.cashierID = cashierID;
+    }
+
     public void setProductIDs(ArrayList<String> productIDs) {
         this.productIDs = productIDs;
     }
@@ -160,16 +172,8 @@ public class Invoice {
         this.totalPricePerProduct = totalPricePerProduct;
     }
 
-    public void setCashAmount(double cashAmount) {
-        this.cashAmount = cashAmount;
-    }
-
-    public void setBalanceAmount(double balanceAmount) {
-        this.balanceAmount = balanceAmount;
-    }
-
-    public void setCashierID(String cashierID) {
-        this.cashierID = cashierID;
+    public String getInvoiceNumber() {
+        return invoiceNumber;
     }
 
     public String getCurrentDate() {
@@ -184,10 +188,6 @@ public class Invoice {
         return checkOutTime;
     }
 
-    public String getInvoiceNumber() {
-        return invoiceNumber;
-    }
-
     public double getSubTotal() {
         return subTotal;
     }
@@ -198,6 +198,14 @@ public class Invoice {
 
     public double getTotalPrice() {
         return totalPrice;
+    }
+
+    public double getCashAmount() {
+        return cashAmount;
+    }
+
+    public double getBalanceAmount() {
+        return balanceAmount;
     }
 
     public String getPaymentMethod() {
@@ -240,6 +248,10 @@ public class Invoice {
         return totalPricePerProductList;
     }
 
+    public String getCashierID() {
+        return cashierID;
+    }
+
     public ArrayList<String> getProductIDs() {
         return productIDs;
     }
@@ -262,18 +274,6 @@ public class Invoice {
 
     public ArrayList<Double> getTotalPricePerProduct() {
         return totalPricePerProduct;
-    }
-
-    public double getCashAmount() {
-        return cashAmount;
-    }
-
-    public double getBalanceAmount() {
-        return balanceAmount;
-    }
-
-    public String getCashierID() {
-        return cashierID;
     }
 
     public void displayBill(){
@@ -353,7 +353,7 @@ public class Invoice {
         tableViewer.addRow(invoiceNumber, currentDate, checkInTime,checkOutTime,pIDs,ps,ns,us,ts,ds,String.format("%.2f", subTotal),String.format("%.2f", totalDiscount),String.format("%.2f", totalPrice),paymentMethod,String.format("%.2f", balanceAmount),customerID,customerName,customerContactNumber,cashierID);
     }
 
-    public void displayAllInvoices(){
+    public void displayInvoice(){
 
         String[] pID = productIDList.split("\n");
         String[] p = productList.split("\n");
