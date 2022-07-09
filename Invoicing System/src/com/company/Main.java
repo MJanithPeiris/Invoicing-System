@@ -12,60 +12,6 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        Invoice invoice = new Invoice();
-//
-//        ArrayList<String> productIDs = new ArrayList<>();
-//        ArrayList<String> products = new ArrayList<>();
-//        ArrayList<Integer> numberOfUnits = new ArrayList<>();
-//        ArrayList<Double> unitPrice = new ArrayList<>();
-//        ArrayList<Double> discountPerUnit = new ArrayList<>();
-//        ArrayList<Double> totalPricePerProduct = new ArrayList<>();
-//
-//        invoice.setInvoiceNumber("I00020");
-//        invoice.setCurrentDate("2022");
-//        invoice.setCheckInTime("13.25");
-//        invoice.setCheckOutTime("20.20");
-//
-//        products.add("gold maari");
-//        products.add("tikiri maari");
-//        invoice.setProducts(products);
-//        productIDs.add("p-000001");
-//        productIDs.add("p-000002");
-//        invoice.setProductIDs(productIDs);
-//        numberOfUnits.add(5);
-//        numberOfUnits.add(2);
-//        invoice.setNumberOfUnits(numberOfUnits);
-//        unitPrice.add(100.50);
-//        unitPrice.add(110.50);
-//        invoice.setUnitPrice(unitPrice);
-//        totalPricePerProduct.add(500.00);
-//        totalPricePerProduct.add(220.00);
-//        invoice.setTotalPricePerProduct(totalPricePerProduct);
-//        discountPerUnit.add(2.2);
-//        discountPerUnit.add(1.2);
-//        invoice.setDiscountPerUnit(discountPerUnit);
-//
-//
-//        invoice.setSubTotal(720.00);
-//        invoice.setTotalDiscount(4.4);
-//        invoice.setTotalPrice(715.60);
-//        invoice.setPaymentMethod("Cash");
-//        invoice.setCashAmount(720.00);
-//        invoice.setBalanceAmount(4.40);
-//        invoice.setCustomerID("c000001");
-//        invoice.setCustomerName("Janith");
-//        invoice.setCustomerContactNumber("0711933120");
-//
-//        invoice.displayBill();
-//
-//        try {
-//
-//            FileOperator.printBill(invoice);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
         Scanner userOption = new Scanner(System.in); // to get user input
         int userInput;
         String userName;
@@ -126,6 +72,7 @@ public class Main {
                             break;
                         case 4:
                             System.out.println("\n ---Admin Tasks---");
+                            // allow only admins to check admin tasks
                             if(Objects.equals(cashier.getUserName(), "Admin"))
                                 adminTask(userOption);
                             else
@@ -200,6 +147,7 @@ public class Main {
 
                 if (getConfirmation(userOption, "add")) {
                     System.out.println(ProductController.addProduct(product));
+                    // update the report
                     FileOperator.writeFile("Product Report", product.getProductID(), "Insert", getDate(), getTime(), FileOperator.readFile("Product Report"));
 
                 }
@@ -220,6 +168,7 @@ public class Main {
                 }
                 product.displayProduct();
 
+                // if user don't want to change the field can press enter to ignore
                 System.out.print("\n Enter updated Product Name : ");
                 productName = userOption.nextLine();
                 if (!Objects.equals(productName, ""))
@@ -248,6 +197,7 @@ public class Main {
 
                 if (getConfirmation(userOption, "update")) {
                     System.out.println(ProductController.updateProduct(product));
+                    // update the report
                     FileOperator.writeFile("Product Report", product.getProductID(), "Update", getDate(), getTime(), FileOperator.readFile("Product Report"));
                 }
                 break;
@@ -270,6 +220,7 @@ public class Main {
 
                 if (getConfirmation(userOption, "delete")) {
                     System.out.println(ProductController.deleteProduct(product));
+                    // update the report
                     FileOperator.writeFile("Product Report", product.getProductID(), "Delete", getDate(), getTime(), FileOperator.readFile("Product Report"));
                 }
                 break;
@@ -339,6 +290,7 @@ public class Main {
 
                 if (getConfirmation(userOption,"add")) {
                     System.out.println(CustomerController.addCustomer(customer));
+                    // update the report
                     FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Insert", getDate(), getTime(), FileOperator.readFile("Customer Report"));
                 }
                 break;
@@ -358,6 +310,7 @@ public class Main {
                 }
                 customer.displayCustomer();
 
+                // if user don't want to change the field can press enter to ignore
                 System.out.print(" Enter updated Customers' Name : ");
                 customerName = userOption.nextLine();
                 if (!Objects.equals(customerName, ""))
@@ -391,6 +344,7 @@ public class Main {
 
                 if (getConfirmation(userOption,"update")) {
                     System.out.println(CustomerController.updateCustomer(customer));
+                    // update the report
                     FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Update", getDate(), getTime(), FileOperator.readFile("Customer Report"));
                 }
                 break;
@@ -412,6 +366,7 @@ public class Main {
 
                 if (getConfirmation(userOption,"delete")) {
                     System.out.println(CustomerController.deleteCustomer(customer));
+                    // update the report
                     FileOperator.writeFile("Customer Report", customer.getCustomerID(), "Delete", getDate(), getTime(), FileOperator.readFile("Customer Report"));
                 }
                 break;
@@ -565,6 +520,7 @@ public class Main {
                 invoice.setCheckOutTime(getTime());
 
                 System.out.println(InvoiceController.addInvoice(invoice));
+                // update the report
                 FileOperator.writeFile("Invoice Report", invoice.getInvoiceNumber(), "Insert", invoice.getCurrentDate(), invoice.getCheckInTime(), FileOperator.readFile("Invoice Report"));
 
                 FileOperator.printBill(invoice);
@@ -638,6 +594,7 @@ public class Main {
 
                 if (getConfirmation(userOption, "add")) {
                     System.out.println(CashierController.addCashier(cashier));
+                    // update the report
                     FileOperator.writeFile("Cashier Report", cashier.getCashierID(), "Insert", getDate(), getTime(), FileOperator.readFile("Cashier Report"));
                 }
                 break;
@@ -670,6 +627,7 @@ public class Main {
 
                 if (getConfirmation(userOption, "reset the password")) {
                     System.out.println(CashierController.updateCashier(cashier));
+                    // update the report
                     FileOperator.writeFile("Cashier Report", cashier.getCashierID(), "Reset", getDate(), getTime(), FileOperator.readFile("Cashier Report"));
                 }
                 break;
@@ -689,6 +647,7 @@ public class Main {
                 }
                 cashier.displayCashier();
 
+                // if user don't want to change the field can press enter to ignore
                 System.out.print("\n Enter updated Name : ");
                 name = userOption.nextLine();
                 if (!Objects.equals(name, ""))
@@ -716,6 +675,7 @@ public class Main {
 
                 if (getConfirmation(userOption, "update")) {
                     System.out.println(CashierController.updateCashier(cashier));
+                    // update the report
                     FileOperator.writeFile("Cashier Report", cashier.getCashierID(), "Update", getDate(), getTime(), FileOperator.readFile("Cashier Report"));
                 }
                 break;
